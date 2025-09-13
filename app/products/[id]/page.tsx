@@ -19,6 +19,7 @@ import {
   Truck,
   Shield,
 } from 'lucide-react';
+import { Metadata } from 'next';
 
 function createSupabaseClient() {
   const cookieStore = cookies();
@@ -45,6 +46,67 @@ function createSupabaseClient() {
       },
     }
   );
+}
+
+export async function generateMetadata({
+  params,
+}: ProductPageProps): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = createSupabaseClient();
+
+  const { data: product } = await supabase
+    .from('products')
+    .select('name, description, images, price')
+    .eq('id', id)
+    .single();
+
+  if (!product) {
+    return {
+      title: 'Sản phẩm không tìm thấy - Ghẹ Crochet',
+      description: 'Sản phẩm bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.',
+    };
+  }
+
+  const title = `${product.name} - Ghẹ Crochet`;
+  const description =
+    product.description ||
+    `Mua ${
+      product.name
+    } handmade chất lượng cao tại Ghẹ Crochet. Giá ${new Intl.NumberFormat(
+      'vi-VN',
+      { style: 'currency', currency: 'VND' }
+    ).format(product.price)}`;
+  const keywords = `crochet, handmade, ${product.name}, đan móc, thủ công`;
+  const image = product.images?.[0] || '/placeholder.svg';
+
+  return {
+    title,
+    description,
+    keywords,
+    openGraph: {
+      title,
+      description,
+      images: [
+        {
+          url: image,
+          width: 600,
+          height: 600,
+          alt: product.name,
+        },
+      ],
+      type: 'website',
+      siteName: 'Ghẹ Crochet',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [image],
+    },
+    alternates: {
+      canonical: `/products/${id}`,
+    },
+  };
 }
 
 interface ProductPageProps {
