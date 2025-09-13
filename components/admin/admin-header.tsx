@@ -14,6 +14,8 @@ import {
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { logout } from '@/lib/auth';
+import logoImage from '@/public/logo.jpg';
+import Image from 'next/image';
 
 export function AdminHeader() {
   const pathname = usePathname();
@@ -44,9 +46,13 @@ export function AdminHeader() {
             href='/admin'
             className='flex items-center gap-2 font-bold text-xl'
           >
-            <div className='w-8 h-8 rounded-full bg-pink-600 flex items-center justify-center'>
-              <Heart className='w-4 h-4 text-white' />
-            </div>
+            <Image
+              src={logoImage}
+              alt='logo'
+              width={32}
+              height={32}
+              className='w-8 h-8'
+            />
             <span className='text-gray-900'>Ghẹ Crochet Admin</span>
           </Link>
 

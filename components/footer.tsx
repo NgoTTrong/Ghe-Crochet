@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Heart, Facebook, PhoneCall } from 'lucide-react';
 import zaloImage from '@/public/zalo.png';
 import Image from 'next/image';
+import logoImage from '@/public/logo.jpg';
 
 export function Footer() {
   return (
@@ -14,9 +15,13 @@ export function Footer() {
               href='/'
               className='flex items-center gap-2 font-bold text-xl'
             >
-              <div className='w-8 h-8 rounded-full bg-primary flex items-center justify-center'>
-                <Heart className='w-4 h-4 text-primary-foreground' />
-              </div>
+              <Image
+                src={logoImage}
+                alt='logo'
+                width={32}
+                height={32}
+                className='w-8 h-8'
+              />
               <span className='gradient-text'>Ghẹ Crochet</span>
             </Link>
             <p className='text-sm text-muted-foreground leading-relaxed'>
