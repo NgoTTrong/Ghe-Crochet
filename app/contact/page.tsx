@@ -141,7 +141,7 @@ export default function ContactPage() {
                           className='rounded-full bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100'
                           asChild
                         >
-                          <Link href='https://m.me/ghecrochet'>
+                          <Link href='https://www.facebook.com/ghecrochet'>
                             <svg
                               viewBox='0 0 24 24'
                               fill='none'
