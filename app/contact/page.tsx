@@ -51,7 +51,7 @@ export default function ContactPage() {
                       <div className='space-y-1'>
                         <h3 className='font-semibold'>Địa chỉ</h3>
                         <p className='text-muted-foreground'>
-                          123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh
+                          Thôn Phước Sơn Xã Phước Đồng, Nha Trang, Vietnam
                         </p>
                       </div>
                     </div>
@@ -62,7 +62,7 @@ export default function ContactPage() {
                       </div>
                       <div className='space-y-1'>
                         <h3 className='font-semibold'>Điện thoại</h3>
-                        <p className='text-muted-foreground'>+84 123 456 789</p>
+                        <p className='text-muted-foreground'>0865180495</p>
                       </div>
                     </div>
 
@@ -73,7 +73,7 @@ export default function ContactPage() {
                       <div className='space-y-1'>
                         <h3 className='font-semibold'>Email</h3>
                         <p className='text-muted-foreground'>
-                          hello@ghecrochet.com
+                          xlam.design@gmail.com
                         </p>
                       </div>
                     </div>
@@ -108,7 +108,7 @@ export default function ContactPage() {
                           className='bg-primary hover:bg-primary/90 text-primary-foreground rounded-full'
                           asChild
                         >
-                          <Link href='tel:+84123456789'>
+                          <Link href='tel:0865180495'>
                             <Phone className='w-4 h-4 mr-2' />
                             Gọi ngay
                           </Link>
@@ -119,7 +119,7 @@ export default function ContactPage() {
                           className='rounded-full bg-transparent'
                           asChild
                         >
-                          <Link href='mailto:hello@ghecrochet.com'>
+                          <Link href='mailto:xlam.design@gmail.com'>
                             <Mail className='w-4 h-4 mr-2' />
                             Email
                           </Link>
@@ -130,7 +130,7 @@ export default function ContactPage() {
                           className='rounded-full bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100'
                           asChild
                         >
-                          <Link href='https://zalo.me/0123456789'>
+                          <Link href='https://zalo.me/0865180495'>
                             <MessageCircle className='w-4 h-4 mr-2' />
                             Zalo
                           </Link>

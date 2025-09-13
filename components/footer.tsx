@@ -61,28 +61,28 @@ export function Footer() {
             <h3 className='font-semibold text-foreground'>Danh mục</h3>
             <nav className='flex flex-col gap-2'>
               <Link
-                href='/products?category=amigurumi'
+                href='/products?category=bộ%20sưu%20tập%20gấu%20bông'
                 className='text-sm text-muted-foreground hover:text-primary transition-colors'
               >
-                Amigurumi
+                Bộ Sưu Tập Gấu Bông
               </Link>
               <Link
-                href='/products?category=bags'
+                href='/products?category=hộp%20quà%20handmade%20tình%20thân'
                 className='text-sm text-muted-foreground hover:text-primary transition-colors'
               >
-                Túi xách & Phụ kiện
+                Hộp Quà Handmade Tình Thân
               </Link>
               <Link
-                href='/products?category=home-decor'
+                href='/products?category=lucky%20box%20-%20hộp%20quà%20may%20mắn'
                 className='text-sm text-muted-foreground hover:text-primary transition-colors'
               >
-                Trang trí nhà
+                Lucky Box - Hộp Quà May Mắn
               </Link>
               <Link
-                href='/products?category=baby'
+                href='/products?category=móc%20khóa%20len%20thủ%20công'
                 className='text-sm text-muted-foreground hover:text-primary transition-colors'
               >
-                Đồ cho bé
+                Móc Khóa Len Thủ Công
               </Link>
             </nav>
           </div>
@@ -94,7 +94,7 @@ export function Footer() {
               <div className='flex items-center gap-2'>
                 <PhoneCall className='w-4 h-4 text-muted-foreground' />
                 <span className='text-sm text-muted-foreground'>
-                  0123456789
+                  0865180495
                 </span>
               </div>
               <div className='flex items-center gap-3'>
@@ -131,7 +131,7 @@ export function Footer() {
                   <Facebook className='w-5 h-5 text-blue-500' />
                 </Link>
                 <Link
-                  href='https://www.facebook.com/ghecrochet'
+                  href='https://zalo.me/0865180495'
                   target='_blank'
                   className='text-muted-foreground hover:text-primary transition-colors'
                 >
