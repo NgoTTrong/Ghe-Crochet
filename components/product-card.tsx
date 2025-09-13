@@ -1,0 +1,71 @@
+import Image from "next/image"
+import Link from "next/link"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+
+interface Product {
+  id: string
+  name: string
+  description: string
+  price: number
+  category: string
+  images: string[]
+  is_featured: boolean
+  is_available: boolean
+}
+
+interface ProductCardProps {
+  product: Product
+}
+
+export function ProductCard({ product }: ProductCardProps) {
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price)
+  }
+
+  return (
+    <Link href={`/products/${product.id}`}>
+      <Card className="group overflow-hidden border-0 cute-shadow hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+        <div className="aspect-square overflow-hidden bg-muted rounded-t-lg">
+          <Image
+            src={product.images[0] || "/placeholder.svg?height=300&width=300"}
+            alt={product.name}
+            width={300}
+            height={300}
+            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+        <CardContent className="p-4 space-y-3">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
+              {product.name}
+            </h3>
+            {product.is_featured && (
+              <Badge variant="secondary" className="bg-accent text-accent-foreground text-xs">
+                Nổi bật
+              </Badge>
+            )}
+          </div>
+
+          <p className="text-sm text-muted-foreground line-clamp-2">{product.description}</p>
+
+          <div className="flex items-center justify-between">
+            <span className="font-bold text-lg text-primary">{formatPrice(product.price)}</span>
+            <Badge variant="outline" className="text-xs">
+              {product.category}
+            </Badge>
+          </div>
+
+          {!product.is_available && (
+            <Badge variant="destructive" className="w-full justify-center">
+              Hết hàng
+            </Badge>
+          )}
+        </CardContent>
+      </Card>
+    </Link>
+  )
+}
