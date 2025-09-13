@@ -228,7 +228,7 @@ export default function ProductPageClient({ params }: ProductPageProps) {
                     </div>
                   )}
                   {product.size_info && (
-                    <div className='flex justify-between'>
+                    <div className='flex justify-between gap-4'>
                       <span className='text-gray-600'>Kích thước:</span>
                       <span className='font-medium text-gray-900'>
                         {product.size_info}
@@ -236,7 +236,7 @@ export default function ProductPageClient({ params }: ProductPageProps) {
                     </div>
                   )}
                   {product.care_instructions && (
-                    <div className='flex justify-between'>
+                    <div className='flex gap-4'>
                       <span className='text-gray-600'>Hướng dẫn bảo quản:</span>
                       <span className='font-medium text-gray-900'>
                         {product.care_instructions}
