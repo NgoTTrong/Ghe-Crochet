@@ -39,7 +39,18 @@ export default function ProductPageClient({ params }: ProductPageProps) {
       try {
         const { data: productData, error: productError } = await supabase
           .from('products')
-          .select('*')
+          .select(
+            `
+            *,
+            product_categories!inner(
+              categories(
+                id,
+                name,
+                description
+              )
+            )
+          `
+          )
           .eq('id', id)
           .single();
 
@@ -48,18 +59,50 @@ export default function ProductPageClient({ params }: ProductPageProps) {
           return;
         }
 
-        setProduct(productData);
+        const transformedProduct = {
+          ...productData,
+          categories:
+            productData.product_categories?.map((pc: any) => pc.categories) ||
+            [],
+        };
 
-        const { data: relatedProductsData } = await supabase
-          .from('products')
-          .select('*')
-          .eq('category', productData.category)
-          .eq('is_available', true)
-          .neq('id', id)
-          .order('created_at', { ascending: false })
-          .limit(4);
+        setProduct(transformedProduct);
 
-        setRelatedProducts(relatedProductsData || []);
+        if (transformedProduct.categories.length > 0) {
+          const categoryIds = transformedProduct.categories.map(
+            (cat: any) => cat.id
+          );
+
+          const { data: relatedProductsData } = await supabase
+            .from('products')
+            .select(
+              `
+              *,
+              product_categories!inner(
+                categories(
+                  id,
+                  name,
+                  description
+                )
+              )
+            `
+            )
+            .in('product_categories.category_id', categoryIds)
+            .eq('is_available', true)
+            .neq('id', id)
+            .order('created_at', { ascending: false })
+            .limit(4);
+
+          const transformedRelatedProducts =
+            relatedProductsData?.map((product: any) => ({
+              ...product,
+              categories:
+                product.product_categories?.map((pc: any) => pc.categories) ||
+                [],
+            })) || [];
+
+          setRelatedProducts(transformedRelatedProducts);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
         notFound();
@@ -108,7 +151,7 @@ export default function ProductPageClient({ params }: ProductPageProps) {
       '@type': 'Brand',
       name: 'Ghẹ Crochet',
     },
-    category: product.category,
+    category: product.categories?.[0]?.name || 'Handmade',
     material: product.materials,
     aggregateRating: {
       '@type': 'AggregateRating',
@@ -168,13 +211,16 @@ export default function ProductPageClient({ params }: ProductPageProps) {
                     <h1 className='text-3xl lg:text-4xl font-bold text-balance text-gray-900'>
                       {product.name}
                     </h1>
-                    <div className='flex items-center gap-2'>
-                      <Badge
-                        variant='outline'
-                        className='text-gray-700 border-gray-300'
-                      >
-                        {product.category}
-                      </Badge>
+                    <div className='flex items-center gap-2 flex-wrap'>
+                      {product.categories?.map((category: any) => (
+                        <Badge
+                          key={category.id}
+                          variant='outline'
+                          className='text-gray-700 border-gray-300'
+                        >
+                          {category.name}
+                        </Badge>
+                      ))}
                       {product.is_featured && (
                         <Badge className='bg-pink-100 text-pink-800 border-pink-200'>
                           <Star className='w-3 h-3 mr-1' />
@@ -228,7 +274,7 @@ export default function ProductPageClient({ params }: ProductPageProps) {
                     </div>
                   )}
                   {product.size_info && (
-                    <div className='flex justify-between gap-4'>
+                    <div className='flex justify-between'>
                       <span className='text-gray-600'>Kích thước:</span>
                       <span className='font-medium text-gray-900'>
                         {product.size_info}
@@ -236,7 +282,7 @@ export default function ProductPageClient({ params }: ProductPageProps) {
                     </div>
                   )}
                   {product.care_instructions && (
-                    <div className='flex gap-4'>
+                    <div className='flex justify-between'>
                       <span className='text-gray-600'>Hướng dẫn bảo quản:</span>
                       <span className='font-medium text-gray-900'>
                         {product.care_instructions}
@@ -445,9 +491,12 @@ export default function ProductPageClient({ params }: ProductPageProps) {
                     className='rounded-full bg-transparent border-gray-300 text-gray-700 hover:bg-gray-50'
                   >
                     <Link
-                      href={`/products?category=${product.category.toLowerCase()}`}
+                      href={`/products?category=${
+                        product.categories?.[0]?.name?.toLowerCase() || ''
+                      }`}
                     >
-                      Xem thêm trong {product.category}
+                      Xem thêm trong{' '}
+                      {product.categories?.[0]?.name || 'danh mục này'}
                     </Link>
                   </Button>
                 </div>
