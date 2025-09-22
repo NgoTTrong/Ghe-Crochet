@@ -15,14 +15,17 @@ export default async function EditProductPage({
     .from('products')
     .select(
       `
-      *,
-      product_categories!inner(
-        categories(id, name)
-      )
-    `
+    *,
+    product_categories(
+      categories(id, name)
+    )
+  `
     )
     .eq('id', params.id)
-    .single();
+    .maybeSingle();
+
+  console.log('🚀 ~ EditProductPage ~ error:', error);
+  console.log('🚀 ~ EditProductPage ~ productData:', productData);
 
   if (error || !productData) {
     notFound();
