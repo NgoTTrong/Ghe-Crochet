@@ -2,12 +2,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 interface Product {
   id: string;
   name: string;
   description: string;
   price: number;
+  promotion_price: number;
   categories?: Array<{
     id: string;
     name: string;
@@ -61,9 +63,25 @@ export function ProductCard({ product }: ProductCardProps) {
           </p>
 
           <div className='flex items-center justify-between gap-2'>
-            <span className='font-bold text-lg text-primary'>
-              {formatPrice(product.price)}
-            </span>
+            <div className='flex flex-col'>
+              <span
+                className={cn(
+                  'font-bold text-lg text-black',
+                  product?.promotion_price !== null &&
+                    product?.promotion_price !== 0 &&
+                    'line-through text-primary'
+                )}
+              >
+                {formatPrice(product.price)}
+              </span>
+              {product?.promotion_price !== null &&
+                product?.promotion_price !== 0 && (
+                  <span className='font-bold text-lg text-red-500'>
+                    {formatPrice(product.promotion_price)}
+                  </span>
+                )}
+            </div>
+
             <div className='flex flex-col gap-1 items-end'>
               {product.categories?.slice(0, 2).map((category) => (
                 <Badge key={category.id} variant='outline' className='text-xs'>

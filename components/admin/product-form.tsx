@@ -25,6 +25,7 @@ interface Product {
   name: string;
   description: string;
   price: number;
+  promotion_price?: number;
   materials: string | null;
   size_info: string | null;
   care_instructions: string | null;
@@ -50,6 +51,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
     name: product?.name || '',
     description: product?.description || '',
     price: product?.price?.toString() || '',
+    promotion_price: product?.promotion_price?.toString() || '',
     selectedCategories: product?.categories?.map((cat) => cat.id) || [],
     materials: product?.materials || '',
     size_info: product?.size_info || '',
@@ -68,6 +70,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         name: formData.name,
         description: formData.description,
         price: Number.parseFloat(formData.price),
+        promotion_price: Number.parseFloat(formData.promotion_price),
         materials: formData.materials || null,
         size_info: formData.size_info || null,
         care_instructions: formData.care_instructions || null,
@@ -220,6 +223,19 @@ export function ProductForm({ categories, product }: ProductFormProps) {
                 value={formData.price}
                 onChange={(e) => handleChange('price', e.target.value)}
                 required
+              />
+            </div>
+
+            <div className='space-y-2'>
+              <Label htmlFor='price'>Giá khuyễn mãi (VND)</Label>
+              <Input
+                id='promotion_price'
+                type='number'
+                placeholder='0'
+                value={formData.promotion_price}
+                onChange={(e) =>
+                  handleChange('promotion_price', e.target.value)
+                }
               />
             </div>
 
