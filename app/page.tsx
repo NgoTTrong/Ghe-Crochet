@@ -147,7 +147,7 @@ export default async function HomePage() {
               <div className='relative'>
                 <div className='aspect-square rounded-3xl overflow-hidden cute-shadow'>
                   <Image
-                    src='/cute-crochet-amigurumi-collection-pastel-colors.jpg'
+                    src='/main-image.jpg'
                     alt='Bộ sưu tập Ghẹ Crochet'
                     width={600}
                     height={600}
