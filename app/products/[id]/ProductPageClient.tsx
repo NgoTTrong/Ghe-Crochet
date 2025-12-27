@@ -1,38 +1,39 @@
-'use client';
+'use client'
 
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
-import { ProductCard } from '@/components/product-card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { ImagePopup } from '@/components/image-popup';
-import Image from 'next/image';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
+import { ImagePopup } from '@/components/image-popup'
+import { ProductCard } from '@/components/product-card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import {
   ArrowLeft,
   Heart,
-  Share2,
   MessageCircle,
-  Star,
   Package,
-  Truck,
+  Share2,
   Shield,
-} from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+  Star,
+  Truck
+} from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 interface ProductPageProps {
-  params: { id: string };
+  params: { id: string }
 }
 
 export default function ProductPageClient({ params }: ProductPageProps) {
-  const [product, setProduct] = useState<any>(null);
-  const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const supabase = createClientComponentClient();
-  const { id } = params;
+  const [product, setProduct] = useState<any>(null)
+  const [relatedProducts, setRelatedProducts] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const supabase = createClientComponentClient()
+  const { id } = params
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,26 +53,26 @@ export default function ProductPageClient({ params }: ProductPageProps) {
           `
           )
           .eq('id', id)
-          .single();
+          .single()
 
         if (productError || !productData) {
-          notFound();
-          return;
+          notFound()
+          return
         }
 
         const transformedProduct = {
           ...productData,
           categories:
             productData.product_categories?.map((pc: any) => pc.categories) ||
-            [],
-        };
+            []
+        }
 
-        setProduct(transformedProduct);
+        setProduct(transformedProduct)
 
         if (transformedProduct.categories.length > 0) {
           const categoryIds = transformedProduct.categories.map(
             (cat: any) => cat.id
-          );
+          )
 
           const { data: relatedProductsData } = await supabase
             .from('products')
@@ -91,42 +92,42 @@ export default function ProductPageClient({ params }: ProductPageProps) {
             .eq('is_available', true)
             .neq('id', id)
             .order('created_at', { ascending: false })
-            .limit(4);
+            .limit(4)
 
           const transformedRelatedProducts =
             relatedProductsData?.map((product: any) => ({
               ...product,
               categories:
                 product.product_categories?.map((pc: any) => pc.categories) ||
-                [],
-            })) || [];
+                []
+            })) || []
 
-          setRelatedProducts(transformedRelatedProducts);
+          setRelatedProducts(transformedRelatedProducts)
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
-        notFound();
+        console.error('Error fetching data:', error)
+        notFound()
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, [id, supabase]);
+    fetchData()
+  }, [id, supabase])
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
-      currency: 'VND',
-    }).format(price);
-  };
+      currency: 'VND'
+    }).format(price)
+  }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   if (!product) {
-    return <div>Product not found</div>;
+    return <div>Product not found</div>
   }
 
   const structuredData = {
@@ -144,21 +145,21 @@ export default function ProductPageClient({ params }: ProductPageProps) {
         : 'https://schema.org/OutOfStock',
       seller: {
         '@type': 'Organization',
-        name: 'Ghẹ Crochet',
-      },
+        name: 'Ghẹ Crochet'
+      }
     },
     brand: {
       '@type': 'Brand',
-      name: 'Ghẹ Crochet',
+      name: 'Ghẹ Crochet'
     },
     category: product.categories?.[0]?.name || 'Handmade',
     material: product.materials,
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '5',
-      reviewCount: '1',
-    },
-  };
+      reviewCount: '1'
+    }
+  }
 
   return (
     <div className='min-h-screen'>
@@ -248,8 +249,23 @@ export default function ProductPageClient({ params }: ProductPageProps) {
                   </div>
                 </div>
 
-                <div className='text-3xl font-bold text-pink-600'>
-                  {formatPrice(product.price)}
+                <div className='flex flex-col'>
+                  <span
+                    className={cn(
+                      'font-bold text-lg text-black',
+                      product?.promotion_price !== null &&
+                        product?.promotion_price !== 0 &&
+                        'line-through text-primary'
+                    )}
+                  >
+                    {formatPrice(product.price)}
+                  </span>
+                  {product?.promotion_price !== null &&
+                    product?.promotion_price !== 0 && (
+                      <span className='font-bold text-lg text-red-500'>
+                        {formatPrice(product.promotion_price)}
+                      </span>
+                    )}
                 </div>
 
                 <p className='text-lg text-gray-600 leading-relaxed'>
@@ -508,33 +524,33 @@ export default function ProductPageClient({ params }: ProductPageProps) {
 
       <Footer />
     </div>
-  );
+  )
 }
 
 function ProductImageGallery({
   images,
-  productName,
+  productName
 }: {
-  images: string[];
-  productName: string;
+  images: string[]
+  productName: string
 }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null
-  );
+  )
 
   const handleImageClick = (index: number) => {
-    setSelectedImageIndex(index);
-  };
+    setSelectedImageIndex(index)
+  }
 
   const closePopup = () => {
-    setSelectedImageIndex(null);
-  };
+    setSelectedImageIndex(null)
+  }
 
-  const validImages = images.filter((img) => img && img.trim() !== '');
+  const validImages = images.filter((img) => img && img.trim() !== '')
   const displayImages =
     validImages.length > 0
       ? validImages
-      : ['/placeholder.svg?height=600&width=600'];
+      : ['/placeholder.svg?height=600&width=600']
 
   return (
     <>
@@ -581,5 +597,5 @@ function ProductImageGallery({
         />
       )}
     </>
-  );
+  )
 }
