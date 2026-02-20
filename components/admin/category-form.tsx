@@ -13,10 +13,19 @@ import { createClient } from "@/lib/supabase/client"
 import { ArrowLeft, Save } from "lucide-react"
 import Link from "next/link"
 
+const PRESET_ICONS = [
+  "🧶", "🪡", "🧵", "✂️", "🎀",
+  "🐱", "🐶", "🐻", "🦊", "🐰",
+  "🦄", "🐸", "🦋", "🌸", "🌺",
+  "🎁", "🏠", "👗", "👒", "🌈",
+  "⭐", "💖", "✨", "🎨", "🍀",
+]
+
 interface Category {
   id: string
   name: string
   description: string | null
+  icon: string | null
 }
 
 interface CategoryFormProps {
@@ -30,6 +39,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
   const [formData, setFormData] = useState({
     name: category?.name || "",
     description: category?.description || "",
+    icon: category?.icon || "",
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,21 +48,21 @@ export function CategoryForm({ category }: CategoryFormProps) {
 
     try {
       if (category) {
-        // Update existing category
         const { error } = await supabase
           .from("categories")
           .update({
             name: formData.name,
             description: formData.description || null,
+            icon: formData.icon || null,
           })
           .eq("id", category.id)
 
         if (error) throw error
       } else {
-        // Create new category
         const { error } = await supabase.from("categories").insert({
           name: formData.name,
           description: formData.description || null,
+          icon: formData.icon || null,
         })
 
         if (error) throw error
@@ -82,7 +92,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
           <CardTitle>{category ? "Chỉnh sửa danh mục" : "Thêm danh mục mới"}</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="name">Tên danh mục *</Label>
               <Input
@@ -103,6 +113,62 @@ export function CategoryForm({ category }: CategoryFormProps) {
                 placeholder="Nhập mô tả danh mục (tùy chọn)"
                 rows={3}
               />
+            </div>
+
+            {/* Icon Picker */}
+            <div className="space-y-3">
+              <Label>Icon danh mục</Label>
+
+              {/* Preview */}
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl border-2 border-dashed border-muted-foreground/30 flex items-center justify-center text-2xl bg-muted/30">
+                  {formData.icon || "?"}
+                </div>
+                <div className="flex-1">
+                  <Input
+                    value={formData.icon}
+                    onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
+                    placeholder="Nhập emoji hoặc chọn bên dưới"
+                    className="text-lg"
+                    maxLength={4}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Gõ emoji trực tiếp hoặc chọn từ danh sách
+                  </p>
+                </div>
+              </div>
+
+              {/* Preset Grid */}
+              <div className="grid grid-cols-10 gap-1.5">
+                {PRESET_ICONS.map((emoji) => (
+                  <button
+                    key={emoji}
+                    type="button"
+                    onClick={() => setFormData({ ...formData, icon: emoji })}
+                    className={`
+                      w-9 h-9 rounded-lg text-xl flex items-center justify-center transition-all
+                      hover:bg-primary/20 hover:scale-110
+                      ${formData.icon === emoji
+                        ? "bg-primary/30 ring-2 ring-primary scale-110"
+                        : "bg-muted/50"
+                      }
+                    `}
+                    title={emoji}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+
+              {formData.icon && (
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, icon: "" })}
+                  className="text-xs text-muted-foreground hover:text-destructive underline"
+                >
+                  Xóa icon
+                </button>
+              )}
             </div>
 
             <div className="flex gap-2">

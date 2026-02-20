@@ -10,6 +10,7 @@ interface Category {
   id: string
   name: string
   description: string | null
+  icon: string | null
   created_at: string
 }
 
@@ -48,7 +49,12 @@ export default async function CategoriesPage() {
         {categories?.map((category: Category) => (
           <Card key={category.id} className="shadow-sm border border-gray-200">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xl text-gray-900">{category.name}</CardTitle>
+              <CardTitle className="text-xl text-gray-900 flex items-center gap-2">
+                {category.icon && (
+                  <span className="text-2xl">{category.icon}</span>
+                )}
+                {category.name}
+              </CardTitle>
               <div className="flex items-center gap-2">
                 <Button variant="outline" size="sm" asChild>
                   <Link href={`/admin/categories/${category.id}/edit`}>
