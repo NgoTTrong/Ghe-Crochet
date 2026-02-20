@@ -7,6 +7,9 @@ import { Suspense } from 'react';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ghe-crochet.vercel.app'
+  ),
   title: 'Ghẹ Crochet - Handmade with Love',
   description:
     'Khám phá những sản phẩm đan móc thủ công tuyệt đẹp, được làm nên bằng tình yêu. Từ những món amigurumi dễ thương đến các phụ kiện tiện dụng, mỗi tác phẩm đều mang trong mình một câu chuyện.',

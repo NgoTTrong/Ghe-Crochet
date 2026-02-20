@@ -25,6 +25,7 @@ export function AdminHeader() {
     { name: 'Dashboard', href: '/admin', icon: Home },
     { name: 'Sản phẩm', href: '/admin/products', icon: Package },
     { name: 'Danh mục', href: '/admin/categories', icon: Users },
+    { name: 'Ảnh trang chủ', href: '/admin/home-images', icon: ImageIcon },
     {
       name: 'Hình ảnh Về chúng tôi',
       href: '/admin/about-images',

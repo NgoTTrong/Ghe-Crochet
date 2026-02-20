@@ -13,6 +13,19 @@ import Link from 'next/link'
 export default async function HomePage() {
   const supabase = await createClient()
 
+  // Site images
+  const { data: siteSettingsData } = await supabase
+    .from('site_settings')
+    .select('key, value')
+    .in('key', ['home_hero_image', 'home_custom_order_image'])
+
+  const siteSettings: Record<string, string> = {}
+  for (const row of siteSettingsData || []) {
+    siteSettings[row.key] = row.value || ''
+  }
+  const heroImage = siteSettings['home_hero_image'] || '/main-image.jpg'
+  const customOrderImage = siteSettings['home_custom_order_image'] || '/main-image.jpg'
+
   let featuredProducts: any[] = []
   const { data: featuredData } = await supabase
     .from('products')
@@ -129,7 +142,7 @@ export default async function HomePage() {
               <div className='relative animate-scale-in delay-200'>
                 <div className='aspect-square rounded-3xl overflow-hidden cute-shadow'>
                   <Image
-                    src='/main-image.jpg'
+                    src={heroImage}
                     alt='Bộ sưu tập Ghẹ Crochet'
                     width={600}
                     height={600}
@@ -261,7 +274,7 @@ export default async function HomePage() {
                   {/* Main image */}
                   <div className='absolute inset-4 rounded-2xl overflow-hidden cute-shadow'>
                     <Image
-                      src='/main-image.jpg'
+                      src={customOrderImage}
                       alt='Sản phẩm đặt theo yêu cầu'
                       fill
                       className='object-cover'

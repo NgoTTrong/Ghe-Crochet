@@ -1,31 +1,31 @@
 'use client'
 
-import { useState, useCallback } from 'react'
-import { useDropzone } from 'react-dropzone'
-import { createClient } from '@/lib/supabase/client'
-import Image from 'next/image'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from '@/components/ui/card'
-import { Upload, X, ImageIcon, CheckCircle2 } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
+import { CheckCircle2, ImageIcon, Upload, X } from 'lucide-react'
+import Image from 'next/image'
+import { useCallback, useState } from 'react'
+import { useDropzone } from 'react-dropzone'
 
 const IMAGE_SLOTS = [
   {
     key: 'home_hero_image',
     label: 'Ảnh Hero trang chủ',
     description: 'Hiển thị ở phần hero chính (bên phải tiêu đề lớn)',
-    aspect: 'aspect-square',
+    aspect: 'aspect-square'
   },
   {
     key: 'home_custom_order_image',
     label: 'Ảnh "Đặt hàng riêng"',
     description: 'Hiển thị trong section "Muốn một sản phẩm chỉ dành cho bạn?"',
-    aspect: 'aspect-square',
-  },
+    aspect: 'aspect-square'
+  }
 ] as const
 
 interface HomeImagesManagerProps {
@@ -33,7 +33,8 @@ interface HomeImagesManagerProps {
 }
 
 export function HomeImagesManager({ initialSettings }: HomeImagesManagerProps) {
-  const [settings, setSettings] = useState<Record<string, string>>(initialSettings)
+  const [settings, setSettings] =
+    useState<Record<string, string>>(initialSettings)
   const [uploading, setUploading] = useState<string | null>(null)
   const [saved, setSaved] = useState<string | null>(null)
   const supabase = createClient()
@@ -51,9 +52,9 @@ export function HomeImagesManager({ initialSettings }: HomeImagesManagerProps) {
 
       if (uploadError) throw uploadError
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('product-images')
-        .getPublicUrl(fileName)
+      const {
+        data: { publicUrl }
+      } = supabase.storage.from('product-images').getPublicUrl(fileName)
 
       const { error: dbError } = await supabase
         .from('site_settings')
@@ -125,7 +126,7 @@ function ImageSlotCard({
   uploading,
   saved,
   onUpload,
-  onRemove,
+  onRemove
 }: ImageSlotCardProps) {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -138,7 +139,7 @@ function ImageSlotCard({
     onDrop,
     accept: { 'image/*': ['.jpeg', '.jpg', '.png', '.webp'] },
     maxFiles: 1,
-    disabled: uploading,
+    disabled: uploading
   })
 
   return (
@@ -158,7 +159,9 @@ function ImageSlotCard({
 
       <CardContent className='space-y-4'>
         {/* Current image preview */}
-        <div className={`${aspect} relative rounded-xl overflow-hidden bg-muted`}>
+        <div
+          className={`${aspect} relative rounded-xl overflow-hidden bg-muted`}
+        >
           {currentUrl ? (
             <>
               <Image
@@ -200,10 +203,10 @@ function ImageSlotCard({
               {uploading
                 ? 'Đang tải lên...'
                 : isDragActive
-                ? 'Thả ảnh vào đây...'
-                : currentUrl
-                ? 'Kéo thả hoặc click để thay ảnh'
-                : 'Kéo thả hoặc click để chọn ảnh'}
+                  ? 'Thả ảnh vào đây...'
+                  : currentUrl
+                    ? 'Kéo thả hoặc click để thay ảnh'
+                    : 'Kéo thả hoặc click để chọn ảnh'}
             </p>
             <p className='text-xs text-muted-foreground'>JPG, PNG, WebP</p>
           </div>
