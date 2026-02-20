@@ -8,7 +8,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Gift, Heart, Sparkles, Star } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-
+// Fix
 export default async function HomePage() {
   const supabase = await createClient()
   let featuredProducts: any[] = []
