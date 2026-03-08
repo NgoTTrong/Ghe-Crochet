@@ -95,12 +95,12 @@ export default async function HomePage() {
           <div className='container mx-auto px-4 sm:px-6 lg:px-8 relative'>
             <div className='grid lg:grid-cols-2 gap-12 items-center'>
               <div className='space-y-8'>
-                <div className='space-y-4'>
+                <div className='space-y-4 z-[50]'>
                   <Badge className='bg-accent text-accent-foreground w-fit animate-fade-in'>
                     <Sparkles className='w-3 h-3 mr-1' />
                     Handmade với tình yêu
                   </Badge>
-                  <h1 className='text-3xl lg:text-[56px] font-bold leading-tight text-balance animate-fade-in-up delay-100'>
+                  <h1 className='text-3xl lg:text-[48px] font-bold leading-tight text-balance animate-fade-in-up delay-100'>
                     Cùng tạo nên dấu ấn
                     <span className='gradient-text block whitespace-nowrap'>
                       Hiện Thực Hóa Mong Muốn
