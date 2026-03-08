@@ -1,6 +1,7 @@
 import { AnimatedSection } from '@/components/animated-section'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
+import { ProductCard } from '@/components/product-card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/server'
@@ -297,16 +298,16 @@ export default async function HomePage() {
         </section>
 
         {/* ── Discounted Products ───────────────────────── */}
-        {/* {discountedProducts.length > 0 && (
+        {discountedProducts.length > 0 && (
           <section className='py-16 lg:py-24 bg-red-50'>
             <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
               <AnimatedSection>
                 <div className='text-center space-y-4 mb-12'>
-                  <Badge className='bg-red-500 text-white'>
+                  <Badge className='bg-primary text-primary-foreground'>
                     <Sparkles className='w-3 h-3 mr-1' />
                     Giảm giá đặc biệt
                   </Badge>
-                  <h2 className='text-3xl lg:text-4xl font-bold text-red-600'>
+                  <h2 className='text-3xl lg:text-4xl font-bold'>
                     Ưu đãi không thể bỏ lỡ
                   </h2>
                   <p className='text-lg text-muted-foreground max-w-2xl mx-auto text-pretty'>
@@ -336,7 +337,7 @@ export default async function HomePage() {
               </AnimatedSection>
             </div>
           </section>
-        )} */}
+        )}
 
         {/* ── Featured Products ─────────────────────────── */}
         {/* <section className='py-16 lg:py-24 bg-muted/30'>

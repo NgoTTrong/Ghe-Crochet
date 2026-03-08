@@ -48,7 +48,7 @@ export function Header() {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'text-sm font-medium transition-colors hover:text-black uppercase',
+                    'text-sm font-bold transition-colors hover:text-black uppercase',
                     isActive ? 'text-black' : 'text-gray-500'
                   )}
                 >
@@ -97,7 +97,7 @@ export function Header() {
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      'text-sm font-medium transition-colors hover:text-black uppercase',
+                      'text-sm font-bold transition-colors hover:text-black uppercase',
                       isActive ? 'text-black' : 'text-gray-500'
                     )}
                     onClick={() => setIsMenuOpen(false)}
