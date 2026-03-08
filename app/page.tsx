@@ -67,7 +67,7 @@ export default async function HomePage() {
     .not('promotion_price', 'is', null)
     .eq('is_available', true)
     .order('created_at', { ascending: false })
-    .limit(6)
+    .limit(3)
 
   discountedProducts = (discountedData || []).map((product) => ({
     ...product,
@@ -80,7 +80,7 @@ export default async function HomePage() {
 
       <main>
         {/* ── Hero ─────────────────────────────────────── */}
-        <section className='relative py-20 lg:py-32 overflow-hidden'>
+        <section className='relative py-20 lg:py-23 overflow-hidden'>
           <div className='absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10' />
           <div className='absolute top-10 right-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl pointer-events-none' />
           <div className='absolute bottom-10 left-10 w-48 h-48 bg-secondary/20 rounded-full blur-3xl pointer-events-none' />
@@ -186,7 +186,7 @@ export default async function HomePage() {
         </section>
 
         {/* ── Perks strip ──────────────────────────────── */}
-        <section className='py-5 bg-white border-y border-border'>
+        <section className='py-4 bg-white border-y border-border'>
           <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
             <div className='flex flex-wrap items-center justify-center gap-x-10 gap-y-3'>
               {[
@@ -209,7 +209,7 @@ export default async function HomePage() {
 
         {/* ── Discounted Products ───────────────────────── */}
         {discountedProducts.length > 0 && (
-          <section className='py-16 lg:py-24 bg-white'>
+          <section className='py-14 lg:py-16 bg-white'>
             <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
               <AnimatedSection>
                 <div className='text-center space-y-4 mb-12'>
