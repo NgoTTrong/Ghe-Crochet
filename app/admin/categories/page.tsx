@@ -37,7 +37,7 @@ export default async function CategoriesPage() {
           </h1>
           <p className="text-gray-600">Quản lý các danh mục sản phẩm</p>
         </div>
-        <Button asChild className="bg-pink-600 hover:bg-pink-700 text-white">
+        <Button asChild className="bg-black hover:bg-gray-800 text-white">
           <Link href="/admin/categories/new">
             <Plus className="h-4 w-4 mr-2" />
             Thêm danh mục
@@ -75,7 +75,7 @@ export default async function CategoriesPage() {
           <Card className="shadow-sm border border-gray-200">
             <CardContent className="text-center py-8">
               <p className="text-gray-600">Chưa có danh mục nào</p>
-              <Button asChild className="mt-4 bg-pink-600 hover:bg-pink-700 text-white">
+              <Button asChild className="mt-4 bg-black hover:bg-gray-800 text-white">
                 <Link href="/admin/categories/new">Tạo danh mục đầu tiên</Link>
               </Button>
             </CardContent>

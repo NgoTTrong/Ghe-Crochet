@@ -70,8 +70,8 @@ export function AdminHeader() {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'flex items-center gap-2 text-sm font-medium transition-colors hover:text-pink-600',
-                    isActive ? 'text-pink-600' : 'text-gray-700'
+                    'flex items-center gap-2 text-sm font-medium transition-colors hover:text-black',
+                    isActive ? 'text-black' : 'text-gray-700'
                   )}
                 >
                   <Icon className='w-4 h-4' />
@@ -84,7 +84,7 @@ export function AdminHeader() {
           {/* Actions */}
           <div className='flex items-center gap-4'>
             <Button variant='ghost' size='sm' asChild>
-              <Link href='/' className='text-gray-700 hover:text-pink-600'>
+              <Link href='/' className='text-gray-700 hover:text-black'>
                 Xem trang chủ
               </Link>
             </Button>
@@ -92,7 +92,7 @@ export function AdminHeader() {
               variant='ghost'
               size='sm'
               onClick={handleLogout}
-              className='text-gray-700 hover:text-pink-600'
+              className='text-gray-700 hover:text-black'
             >
               <LogOut className='w-4 h-4 mr-2' />
               Đăng xuất

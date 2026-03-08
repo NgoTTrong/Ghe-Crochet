@@ -223,7 +223,7 @@ export default function ProductPageClient({ params }: ProductPageProps) {
                         </Badge>
                       ))}
                       {product.is_featured && (
-                        <Badge className='bg-pink-100 text-pink-800 border-pink-200'>
+                        <Badge className='bg-gray-100 text-gray-800 border-gray-200'>
                           <Star className='w-3 h-3 mr-1' />
                           Nổi bật
                         </Badge>
@@ -235,14 +235,14 @@ export default function ProductPageClient({ params }: ProductPageProps) {
                     <Button
                       variant='ghost'
                       size='sm'
-                      className='text-gray-600 hover:text-pink-600'
+                      className='text-gray-600 hover:text-black'
                     >
                       <Heart className='w-4 h-4' />
                     </Button>
                     <Button
                       variant='ghost'
                       size='sm'
-                      className='text-gray-600 hover:text-pink-600'
+                      className='text-gray-600 hover:text-black'
                     >
                       <Share2 className='w-4 h-4' />
                     </Button>
@@ -314,7 +314,7 @@ export default function ProductPageClient({ params }: ProductPageProps) {
               <div className='space-y-4'>
                 <Button
                   size='lg'
-                  className='w-full bg-pink-600 hover:bg-pink-700 text-white rounded-full'
+                  className='w-full bg-black hover:bg-gray-800 text-white rounded-full'
                   asChild
                 >
                   <Link href='/contact'>
@@ -325,22 +325,22 @@ export default function ProductPageClient({ params }: ProductPageProps) {
 
                 <div className='grid grid-cols-3 gap-4 text-center'>
                   <div className='space-y-2'>
-                    <div className='w-12 h-12 mx-auto rounded-full bg-pink-100 flex items-center justify-center'>
-                      <Package className='w-6 h-6 text-pink-600' />
+                    <div className='w-12 h-12 mx-auto rounded-full bg-gray-100 flex items-center justify-center'>
+                      <Package className='w-6 h-6 text-black' />
                     </div>
                     <div className='text-xs text-gray-600'>Handmade</div>
                   </div>
                   <div className='space-y-2'>
-                    <div className='w-12 h-12 mx-auto rounded-full bg-blue-100 flex items-center justify-center'>
-                      <Truck className='w-6 h-6 text-blue-600' />
+                    <div className='w-12 h-12 mx-auto rounded-full bg-gray-100 flex items-center justify-center'>
+                      <Truck className='w-6 h-6 text-black' />
                     </div>
                     <div className='text-xs text-gray-600'>
                       Giao hàng toàn quốc
                     </div>
                   </div>
                   <div className='space-y-2'>
-                    <div className='w-12 h-12 mx-auto rounded-full bg-green-100 flex items-center justify-center'>
-                      <Shield className='w-6 h-6 text-green-600' />
+                    <div className='w-12 h-12 mx-auto rounded-full bg-gray-100 flex items-center justify-center'>
+                      <Shield className='w-6 h-6 text-black' />
                     </div>
                     <div className='text-xs text-gray-600'>
                       Bảo hành chất lượng
@@ -373,28 +373,28 @@ export default function ProductPageClient({ params }: ProductPageProps) {
                         </h3>
                         <ul className='space-y-2 text-gray-700'>
                           <li className='flex items-start gap-2'>
-                            <span className='w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0'></span>
+                            <span className='w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0'></span>
                             <span>
                               Được đan thủ công 100% bằng tay với kỹ thuật
                               crochet truyền thống
                             </span>
                           </li>
                           <li className='flex items-start gap-2'>
-                            <span className='w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0'></span>
+                            <span className='w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0'></span>
                             <span>
                               Sử dụng chỉ cotton cao cấp, mềm mại và an toàn cho
                               da
                             </span>
                           </li>
                           <li className='flex items-start gap-2'>
-                            <span className='w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0'></span>
+                            <span className='w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0'></span>
                             <span>
                               Thiết kế độc đáo, không trùng lặp với bất kỳ sản
                               phẩm nào khác
                             </span>
                           </li>
                           <li className='flex items-start gap-2'>
-                            <span className='w-2 h-2 bg-pink-500 rounded-full mt-2 flex-shrink-0'></span>
+                            <span className='w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0'></span>
                             <span>
                               Có thể tùy chỉnh màu sắc và kích thước theo yêu
                               cầu
@@ -437,8 +437,8 @@ export default function ProductPageClient({ params }: ProductPageProps) {
 
                   <div className='grid md:grid-cols-3 gap-6 text-center'>
                     <div className='space-y-3'>
-                      <div className='w-16 h-16 mx-auto rounded-full bg-pink-100 flex items-center justify-center'>
-                        <Heart className='w-8 h-8 text-pink-600' />
+                      <div className='w-16 h-16 mx-auto rounded-full bg-gray-100 flex items-center justify-center'>
+                        <Heart className='w-8 h-8 text-black' />
                       </div>
                       <h4 className='font-semibold text-gray-900'>
                         Làm bằng tình yêu

@@ -192,8 +192,8 @@ function ImageSlotCard({
           {...getRootProps()}
           className={`
             border-2 border-dashed rounded-xl p-5 text-center cursor-pointer transition-colors
-            ${isDragActive ? 'border-pink-400 bg-pink-50' : 'border-gray-200'}
-            ${uploading ? 'opacity-50 cursor-not-allowed' : 'hover:border-pink-400 hover:bg-pink-50'}
+            ${isDragActive ? 'border-black bg-gray-50' : 'border-gray-200'}
+            ${uploading ? 'opacity-50 cursor-not-allowed' : 'hover:border-black hover:bg-gray-50'}
           `}
         >
           <input {...getInputProps()} />

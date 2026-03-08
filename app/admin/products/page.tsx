@@ -43,7 +43,7 @@ export default async function AdminProductsPage() {
           </p>
         </div>
 
-        <Button asChild className='bg-pink-600 hover:bg-pink-700 text-white'>
+        <Button asChild className='bg-black hover:bg-gray-800 text-white'>
           <Link href='/admin/products/new'>
             <Plus className='w-4 h-4 mr-2' />
             Thêm sản phẩm

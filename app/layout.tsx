@@ -1,10 +1,16 @@
 import { Analytics } from '@vercel/analytics/next'
-import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
+import { Be_Vietnam_Pro } from 'next/font/google'
 import type React from 'react'
 import { Suspense } from 'react'
 import './globals.css'
+
+const beVietnamPro = Be_Vietnam_Pro({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-be-vietnam-pro',
+  display: 'swap'
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -67,7 +73,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='vi'>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+      <body className={`${beVietnamPro.variable} font-sans`}>
         <Suspense fallback={null}>{children}</Suspense>
         <Analytics />
       </body>

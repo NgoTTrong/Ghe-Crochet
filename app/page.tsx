@@ -1,12 +1,22 @@
+import { AnimatedSection } from '@/components/animated-section'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { ProductCard } from '@/components/product-card'
-import { AnimatedSection } from '@/components/animated-section'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { createClient } from '@/lib/supabase/server'
-import { Gift, Heart, Sparkles, Star, CheckCircle2, Palette, Ruler, Tag, ArrowRight } from 'lucide-react'
+import {
+  ArrowRight,
+  CheckCircle2,
+  Gift,
+  Heart,
+  Palette,
+  Ruler,
+  Sparkles,
+  Star,
+  Tag
+} from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -24,7 +34,8 @@ export default async function HomePage() {
     siteSettings[row.key] = row.value || ''
   }
   const heroImage = siteSettings['home_hero_image'] || '/main-image.jpg'
-  const customOrderImage = siteSettings['home_custom_order_image'] || '/main-image.jpg'
+  const customOrderImage =
+    siteSettings['home_custom_order_image'] || '/main-image.jpg'
 
   let featuredProducts: any[] = []
   const { data: featuredData } = await supabase
@@ -42,7 +53,7 @@ export default async function HomePage() {
 
   featuredProducts = (featuredData || []).map((product) => ({
     ...product,
-    categories: product.product_categories.map((pc: any) => pc.categories),
+    categories: product.product_categories.map((pc: any) => pc.categories)
   }))
 
   let discountedProducts: any[] = []
@@ -61,7 +72,7 @@ export default async function HomePage() {
 
   discountedProducts = (discountedData || []).map((product) => ({
     ...product,
-    categories: product.product_categories.map((pc: any) => pc.categories),
+    categories: product.product_categories.map((pc: any) => pc.categories)
   }))
 
   return (
@@ -92,8 +103,8 @@ export default async function HomePage() {
                   <p className='text-lg text-muted-foreground leading-relaxed text-pretty animate-fade-in-up delay-200'>
                     Mỗi sản phẩm tại Ghẹ Crochet đều được tạo ra bằng tay với
                     tình yêu và sự tỉ mỉ. Từ những chú amigurumi dễ thương đến
-                    các phụ kiện thực dụng, chúng tôi mang đến những món quà
-                    độc đáo cho cuộc sống của bạn.
+                    các phụ kiện thực dụng, chúng tôi mang đến những món quà độc
+                    đáo cho cuộc sống của bạn.
                   </p>
                 </div>
 
@@ -121,12 +132,16 @@ export default async function HomePage() {
                 <div className='flex items-center gap-8 pt-4 animate-fade-in-up delay-400'>
                   <div className='text-center'>
                     <div className='text-2xl font-bold text-primary'>500+</div>
-                    <div className='text-sm text-muted-foreground'>Sản phẩm</div>
+                    <div className='text-sm text-muted-foreground'>
+                      Sản phẩm
+                    </div>
                   </div>
                   <div className='w-px h-10 bg-border' />
                   <div className='text-center'>
-                    <div className='text-2xl font-bold text-secondary'>1000+</div>
-                    <div className='text-sm text-muted-foreground'>Khách hàng</div>
+                    <div className='text-2xl font-bold text-primary'>1000+</div>
+                    <div className='text-sm text-muted-foreground'>
+                      Khách hàng
+                    </div>
                   </div>
                   <div className='w-px h-10 bg-border' />
                   <div className='text-center'>
@@ -134,7 +149,9 @@ export default async function HomePage() {
                       <Star className='w-5 h-5 fill-current' />
                       4.9
                     </div>
-                    <div className='text-sm text-muted-foreground'>Đánh giá</div>
+                    <div className='text-sm text-muted-foreground'>
+                      Đánh giá
+                    </div>
                   </div>
                 </div>
               </div>
@@ -159,7 +176,9 @@ export default async function HomePage() {
                   </div>
                   <div>
                     <div className='text-xs font-semibold'>100% Handmade</div>
-                    <div className='text-xs text-muted-foreground'>Đảm bảo chất lượng</div>
+                    <div className='text-xs text-muted-foreground'>
+                      Đảm bảo chất lượng
+                    </div>
                   </div>
                 </div>
               </div>
@@ -175,9 +194,12 @@ export default async function HomePage() {
                 { emoji: '🧶', label: '100% Handmade' },
                 { emoji: '📦', label: 'Giao hàng toàn quốc' },
                 { emoji: '🎨', label: 'Đặt theo yêu cầu' },
-                { emoji: '💝', label: 'Quà tặng ý nghĩa' },
+                { emoji: '💝', label: 'Quà tặng ý nghĩa' }
               ].map(({ emoji, label }) => (
-                <div key={label} className='flex items-center gap-2 text-sm text-muted-foreground'>
+                <div
+                  key={label}
+                  className='flex items-center gap-2 text-sm text-muted-foreground'
+                >
                   <span className='text-lg'>{emoji}</span>
                   <span className='font-medium'>{label}</span>
                 </div>
@@ -205,7 +227,10 @@ export default async function HomePage() {
                 </div>
               </AnimatedSection>
 
-              <AnimatedSection className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8' stagger>
+              <AnimatedSection
+                className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+                stagger
+              >
                 {discountedProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
@@ -243,7 +268,10 @@ export default async function HomePage() {
               </div>
             </AnimatedSection>
 
-            <AnimatedSection className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8' stagger>
+            <AnimatedSection
+              className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+              stagger
+            >
               {featuredProducts?.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -306,8 +334,8 @@ export default async function HomePage() {
 
                 <p className='text-muted-foreground leading-relaxed'>
                   Ghẹ Crochet nhận đặt hàng theo yêu cầu — từ màu sắc, kích
-                  thước, đến hình dáng và phụ kiện đính kèm. Mỗi sản phẩm là
-                  một tác phẩm độc nhất được tạo ra riêng cho bạn.
+                  thước, đến hình dáng và phụ kiện đính kèm. Mỗi sản phẩm là một
+                  tác phẩm độc nhất được tạo ra riêng cho bạn.
                 </p>
 
                 <ul className='space-y-3'>
@@ -315,7 +343,7 @@ export default async function HomePage() {
                     'Tự chọn màu sắc từ bảng màu phong phú',
                     'Điều chỉnh kích thước theo ý muốn',
                     'Thêm tên, ngày kỷ niệm hoặc hình riêng',
-                    'Tư vấn mẫu thiết kế miễn phí',
+                    'Tư vấn mẫu thiết kế miễn phí'
                   ].map((item) => (
                     <li key={item} className='flex items-start gap-3 text-sm'>
                       <CheckCircle2 className='w-4 h-4 text-secondary-foreground mt-0.5 shrink-0' />

@@ -48,8 +48,8 @@ export function Header() {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'text-sm font-medium transition-colors hover:text-pink-600',
-                    isActive ? 'text-pink-600' : 'text-gray-700'
+                    'text-sm font-medium transition-colors hover:text-black',
+                    isActive ? 'text-black' : 'text-gray-700'
                   )}
                 >
                   {item.name}
@@ -62,7 +62,7 @@ export function Header() {
           <div className='hidden md:flex items-center gap-4'>
             <Button
               asChild
-              className='bg-pink-600 hover:bg-pink-700 text-white rounded-full'
+              className='bg-black hover:bg-gray-800 text-white rounded-full'
             >
               <Link href='/contact'>Đặt hàng ngay</Link>
             </Button>
@@ -97,8 +97,8 @@ export function Header() {
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      'text-sm font-medium transition-colors hover:text-pink-600',
-                      isActive ? 'text-pink-600' : 'text-gray-700'
+                      'text-sm font-medium transition-colors hover:text-black',
+                      isActive ? 'text-black' : 'text-gray-700'
                     )}
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -108,7 +108,7 @@ export function Header() {
               })}
               <Button
                 asChild
-                className='bg-pink-600 hover:bg-pink-700 text-white rounded-full w-fit'
+                className='bg-black hover:bg-gray-800 text-white rounded-full w-fit'
               >
                 <Link href='/contact' onClick={() => setIsMenuOpen(false)}>
                   Đặt hàng ngay

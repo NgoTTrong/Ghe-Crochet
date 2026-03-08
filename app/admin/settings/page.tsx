@@ -18,8 +18,8 @@ export default function SettingsPage() {
         </CardHeader>
         <CardContent className="text-center py-12">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-pink-100 flex items-center justify-center">
-              <Clock className="w-8 h-8 text-pink-600" />
+            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
+              <Clock className="w-8 h-8 text-black" />
             </div>
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-gray-900">Coming Soon</h3>
