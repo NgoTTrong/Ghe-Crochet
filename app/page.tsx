@@ -101,7 +101,10 @@ export default async function HomePage() {
                     Handmade với tình yêu
                   </Badge>
                   <h1 className='text-3xl lg:text-[56px] font-bold leading-tight text-balance animate-fade-in-up delay-100'>
-                    Cùng tạo nên dấu ấn - Hiện Thực Hóa Mong Muốn
+                    Cùng tạo nên dấu ấn
+                    <span className='gradient-text block whitespace-nowrap'>
+                      Hiện Thực Hóa Mong Muốn
+                    </span>
                   </h1>
                   <p className='text-base lg:text-lg text-muted-foreground leading-relaxed text-pretty animate-fade-in-up delay-200'>
                     Bạn đang ấp ủ một món quà đặc biệt hay muốn tìm kiếm một món
