@@ -19,6 +19,13 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  }).format(price)
+}
+
 export default async function HomePage() {
   const supabase = await createClient()
 
@@ -183,29 +190,6 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── Perks strip ──────────────────────────────── */}
-        <section className='py-4 bg-white border-y border-border'>
-          <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-            <div className='flex flex-wrap items-center justify-center gap-x-10 gap-y-3'>
-              {[
-                { emoji: '🧶', label: '100% Handmade' },
-                { emoji: '📦', label: 'Giao hàng toàn quốc' },
-                { emoji: '🎨', label: 'Đặt theo yêu cầu' },
-                { emoji: '💝', label: 'Quà tặng ý nghĩa' }
-              ].map(({ emoji, label }) => (
-                <div
-                  key={label}
-                  className='flex items-center gap-2 text-sm text-muted-foreground'
-                >
-                  <span className='text-lg'>{emoji}</span>
-                  <span className='font-medium'>{label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── Discounted Products ───────────────────────── */}
         {discountedProducts.length > 0 && (
           <section className='py-14 lg:py-16 bg-white'>
             <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
@@ -246,6 +230,28 @@ export default async function HomePage() {
             </div>
           </section>
         )}
+
+        {/* ── Perks strip ──────────────────────────────── */}
+        <section className='py-4 bg-white border-y border-border'>
+          <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
+            <div className='flex flex-wrap items-center justify-center gap-x-10 gap-y-3'>
+              {[
+                { emoji: '🧶', label: '100% Handmade' },
+                { emoji: '📦', label: 'Giao hàng toàn quốc' },
+                { emoji: '🎨', label: 'Đặt theo yêu cầu' },
+                { emoji: '💝', label: 'Quà tặng ý nghĩa' }
+              ].map(({ emoji, label }) => (
+                <div
+                  key={label}
+                  className='flex items-center gap-2 text-sm text-muted-foreground'
+                >
+                  <span className='text-lg'>{emoji}</span>
+                  <span className='font-medium'>{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ── Featured Products ─────────────────────────── */}
         {/* <section className='py-16 lg:py-24 bg-muted/30'>
@@ -288,7 +294,11 @@ export default async function HomePage() {
         </section> */}
 
         {/* ── Custom Order Hook ────────────────────────── */}
-        <section className='py-16 lg:py-24 bg-red-50'>
+        <section className='py-16 lg:py-24 relative'>
+          <div className='absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10' />
+          <div className='absolute top-10 right-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl pointer-events-none' />
+          <div className='absolute bottom-10 left-10 w-48 h-48 bg-secondary/20 rounded-full blur-3xl pointer-events-none' />
+
           <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
               {/* Decorative side */}
@@ -325,8 +335,8 @@ export default async function HomePage() {
                 </Badge>
 
                 <h2 className='text-3xl lg:text-4xl font-bold leading-tight'>
-                  Muốn một sản phẩm{' '}
-                  <span className='gradient-text'>chỉ dành cho bạn?</span>
+                  Hiện thực hóa{' '}
+                  <span className='gradient-text'>dấu ấn cá nhân?</span>
                 </h2>
 
                 <p className='text-muted-foreground leading-relaxed'>
