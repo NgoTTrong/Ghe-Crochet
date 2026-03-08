@@ -37,7 +37,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className='hidden md:flex items-center gap-6'>
+          <nav className='hidden md:flex items-center gap-8'>
             {navigation.map((item) => {
               const isActive =
                 pathname === item.href ||
@@ -48,8 +48,8 @@ export function Header() {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'text-sm font-bold transition-colors hover:text-black uppercase',
-                    isActive ? 'text-black' : 'text-gray-500'
+                    'text-xs uppercase tracking-widest font-bold transition-all hover:text-primary relative py-1',
+                    !isActive && 'text-muted-foreground'
                   )}
                 >
                   {item.name}
@@ -97,8 +97,8 @@ export function Header() {
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      'text-sm font-bold transition-colors hover:text-black uppercase',
-                      isActive ? 'text-black' : 'text-gray-500'
+                      'text-sm font-medium transition-colors hover:text-primary relative py-1',
+                      !isActive && 'text-muted-foreground'
                     )}
                     onClick={() => setIsMenuOpen(false)}
                   >

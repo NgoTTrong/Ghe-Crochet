@@ -67,7 +67,7 @@ export default async function HomePage() {
     .not('promotion_price', 'is', null)
     .eq('is_available', true)
     .order('created_at', { ascending: false })
-    .limit(3)
+    .limit(6)
 
   discountedProducts = (discountedData || []).map((product) => ({
     ...product,
@@ -94,16 +94,14 @@ export default async function HomePage() {
                     Handmade với tình yêu
                   </Badge>
                   <h1 className='text-3xl lg:text-[56px] font-bold leading-tight text-balance animate-fade-in-up delay-100'>
-                    Khám phá Thế giới
-                    <span className='gradient-text block whitespace-nowrap'>
-                      Handmade Đầy Màu sắc
-                    </span>
+                    Cùng tạo nên dấu ấn - Hiện Thực Hóa Mong Muốn
                   </h1>
                   <p className='text-base lg:text-lg text-muted-foreground leading-relaxed text-pretty animate-fade-in-up delay-200'>
-                    Không chỉ dừng lại ở những sợi len, chúng tôi mang đến bộ
-                    sưu tập đa chất liệu. Dù là phụ kiện cá nhân hay quà tặng ý
-                    nghĩa, mỗi món đồ đều được chăm chút để kể lên câu chuyện
-                    riêng của bạn.
+                    Bạn đang ấp ủ một món quà đặc biệt hay muốn tìm kiếm một món
+                    đồ trang trí mang đậm phong cách riêng? Hãy chia sẻ câu
+                    chuyện và mong muốn của bạn, Ghẹ Crochet sẽ cùng bạn trao
+                    đổi để biến những cảm hứng sơ khai thành những sản phẩm thủ
+                    công hữu hình đầy ấn tượng
                   </p>
                 </div>
 

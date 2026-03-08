@@ -1,14 +1,14 @@
-import Link from 'next/link';
-import { Heart, Facebook, PhoneCall } from 'lucide-react';
-import zaloImage from '@/public/zalo.png';
-import Image from 'next/image';
-import logoImage from '@/public/logo.jpg';
+import logoImage from '@/public/logo.jpg'
+import zaloImage from '@/public/zalo.png'
+import { Facebook, Heart, PhoneCall } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export function Footer() {
   return (
     <footer className='bg-card border-t border-border/40'>
       <div className='container mx-auto px-4 sm:px-6 lg:px-8 py-12'>
-        <div className='grid grid-cols-1 md:grid-cols-4 gap-8'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
           {/* Brand */}
           <div className='space-y-4'>
             <Link
@@ -31,7 +31,7 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div className='space-y-4'>
+          {/* <div className='space-y-4'>
             <h3 className='font-semibold text-foreground'>Liên kết nhanh</h3>
             <nav className='flex flex-col gap-2'>
               <Link
@@ -59,7 +59,7 @@ export function Footer() {
                 Liên hệ
               </Link>
             </nav>
-          </div>
+          </div> */}
 
           {/* Categories */}
           <div className='space-y-4'>
@@ -161,5 +161,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  );
+  )
 }
