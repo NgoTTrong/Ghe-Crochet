@@ -207,6 +207,88 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* ── Discounted Products ───────────────────────── */}
+        {discountedProducts.length > 0 && (
+          <section className='py-16 lg:py-24 bg-red-50'>
+            <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
+              <AnimatedSection>
+                <div className='text-center space-y-4 mb-12'>
+                  <Badge className='bg-primary text-primary-foreground'>
+                    <Sparkles className='w-3 h-3 mr-1' />
+                    Giảm giá đặc biệt
+                  </Badge>
+                  <h2 className='text-3xl lg:text-4xl font-bold'>
+                    Ưu đãi không thể bỏ lỡ
+                  </h2>
+                  <p className='text-lg text-muted-foreground max-w-2xl mx-auto text-pretty'>
+                    Những sản phẩm đang giảm giá hấp dẫn dành riêng cho bạn
+                  </p>
+                </div>
+              </AnimatedSection>
+
+              <AnimatedSection
+                className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+                stagger
+              >
+                {discountedProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </AnimatedSection>
+
+              <AnimatedSection className='text-center mt-12'>
+                <Button
+                  asChild
+                  size='lg'
+                  variant='outline'
+                  className='rounded-full bg-transparent'
+                >
+                  <Link href='/products'>Xem tất cả khuyến mãi</Link>
+                </Button>
+              </AnimatedSection>
+            </div>
+          </section>
+        )}
+
+        {/* ── Featured Products ─────────────────────────── */}
+        {/* <section className='py-16 lg:py-24 bg-muted/30'>
+          <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
+            <AnimatedSection>
+              <div className='text-center space-y-4 mb-12'>
+                <Badge className='bg-primary text-primary-foreground'>
+                  <Star className='w-3 h-3 mr-1' />
+                  Sản phẩm nổi bật
+                </Badge>
+                <h2 className='text-3xl lg:text-4xl font-bold'>
+                  Được yêu thích nhất
+                </h2>
+                <p className='text-lg text-muted-foreground max-w-2xl mx-auto text-pretty'>
+                  Những sản phẩm được khách hàng yêu thích và đánh giá cao nhất
+                </p>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection
+              className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+              stagger
+            >
+              {featuredProducts?.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </AnimatedSection>
+
+            <AnimatedSection className='text-center mt-12'>
+              <Button
+                asChild
+                size='lg'
+                variant='outline'
+                className='rounded-full bg-transparent'
+              >
+                <Link href='/products'>Xem tất cả sản phẩm</Link>
+              </Button>
+            </AnimatedSection>
+          </div>
+        </section> */}
+
         {/* ── Custom Order Hook ────────────────────────── */}
         <section className='py-16 lg:py-24 bg-white'>
           <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
@@ -296,88 +378,6 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
-
-        {/* ── Discounted Products ───────────────────────── */}
-        {discountedProducts.length > 0 && (
-          <section className='py-16 lg:py-24 bg-red-50'>
-            <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-              <AnimatedSection>
-                <div className='text-center space-y-4 mb-12'>
-                  <Badge className='bg-primary text-primary-foreground'>
-                    <Sparkles className='w-3 h-3 mr-1' />
-                    Giảm giá đặc biệt
-                  </Badge>
-                  <h2 className='text-3xl lg:text-4xl font-bold'>
-                    Ưu đãi không thể bỏ lỡ
-                  </h2>
-                  <p className='text-lg text-muted-foreground max-w-2xl mx-auto text-pretty'>
-                    Những sản phẩm đang giảm giá hấp dẫn dành riêng cho bạn
-                  </p>
-                </div>
-              </AnimatedSection>
-
-              <AnimatedSection
-                className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
-                stagger
-              >
-                {discountedProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </AnimatedSection>
-
-              <AnimatedSection className='text-center mt-12'>
-                <Button
-                  asChild
-                  size='lg'
-                  variant='outline'
-                  className='rounded-full bg-transparent'
-                >
-                  <Link href='/products'>Xem tất cả khuyến mãi</Link>
-                </Button>
-              </AnimatedSection>
-            </div>
-          </section>
-        )}
-
-        {/* ── Featured Products ─────────────────────────── */}
-        {/* <section className='py-16 lg:py-24 bg-muted/30'>
-          <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-            <AnimatedSection>
-              <div className='text-center space-y-4 mb-12'>
-                <Badge className='bg-primary text-primary-foreground'>
-                  <Star className='w-3 h-3 mr-1' />
-                  Sản phẩm nổi bật
-                </Badge>
-                <h2 className='text-3xl lg:text-4xl font-bold'>
-                  Được yêu thích nhất
-                </h2>
-                <p className='text-lg text-muted-foreground max-w-2xl mx-auto text-pretty'>
-                  Những sản phẩm được khách hàng yêu thích và đánh giá cao nhất
-                </p>
-              </div>
-            </AnimatedSection>
-
-            <AnimatedSection
-              className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
-              stagger
-            >
-              {featuredProducts?.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </AnimatedSection>
-
-            <AnimatedSection className='text-center mt-12'>
-              <Button
-                asChild
-                size='lg'
-                variant='outline'
-                className='rounded-full bg-transparent'
-              >
-                <Link href='/products'>Xem tất cả sản phẩm</Link>
-              </Button>
-            </AnimatedSection>
-          </div>
-        </section> */}
 
         {/* ── CTA ───────────────────────────────────────── */}
         {/* <section className='py-16 lg:py-24'>
