@@ -1,10 +1,10 @@
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import Link from 'next/link';
-import { MapPin, Phone, Mail, Clock, Heart, MessageCircle } from 'lucide-react';
+import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Clock, Heart, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
+import Link from 'next/link'
 
 export default function ContactPage() {
   return (
@@ -20,11 +20,11 @@ export default function ContactPage() {
               Liên hệ với chúng tôi
             </Badge>
             <h1 className='text-3xl lg:text-4xl font-bold'>
-              Hãy kể cho chúng tôi nghe ý tưởng của bạn
+              Cùng tạo nên món quà của riêng bạn
             </h1>
             <p className='text-lg text-muted-foreground max-w-2xl mx-auto text-pretty'>
-              Chúng tôi luôn sẵn sàng lắng nghe và biến ý tưởng của bạn thành
-              những sản phẩm handmade độc đáo
+              Đừng ngần ngại chia sẻ mong muốn của bạn, Ghẹ Crochet luôn sẵn
+              sàng hiện thực hóa chúng thành những món đồ handmade độc bản.
             </p>
           </div>
 
@@ -57,8 +57,8 @@ export default function ContactPage() {
                     </div>
 
                     <div className='flex items-start gap-4'>
-                      <div className='w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0'>
-                        <Phone className='w-6 h-6 text-secondary' />
+                      <div className='w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0'>
+                        <Phone className='w-6 h-6 text-primary' />
                       </div>
                       <div className='space-y-1'>
                         <h3 className='font-semibold'>Điện thoại</h3>
@@ -127,7 +127,7 @@ export default function ContactPage() {
                         <Button
                           variant='outline'
                           size='sm'
-                          className='rounded-full bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100'
+                          className='rounded-full bg-transparent'
                           asChild
                         >
                           <Link href='https://zalo.me/0865180495'>
@@ -138,7 +138,7 @@ export default function ContactPage() {
                         <Button
                           variant='outline'
                           size='sm'
-                          className='rounded-full bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100'
+                          className='rounded-full bg-transparent'
                           asChild
                         >
                           <Link href='https://www.facebook.com/ghecrochet'>
@@ -158,7 +158,7 @@ export default function ContactPage() {
                                   fillRule='evenodd'
                                   clipRule='evenodd'
                                   d='M20 1C21.6569 1 23 2.34315 23 4V20C23 21.6569 21.6569 23 20 23H4C2.34315 23 1 21.6569 1 20V4C1 2.34315 2.34315 1 4 1H20ZM20 3C20.5523 3 21 3.44772 21 4V20C21 20.5523 20.5523 21 20 21H15V13.9999H17.0762C17.5066 13.9999 17.8887 13.7245 18.0249 13.3161L18.4679 11.9871C18.6298 11.5014 18.2683 10.9999 17.7564 10.9999H15V8.99992C15 8.49992 15.5 7.99992 16 7.99992H18C18.5523 7.99992 19 7.5522 19 6.99992V6.31393C19 5.99091 18.7937 5.7013 18.4813 5.61887C17.1705 5.27295 16 5.27295 16 5.27295C13.5 5.27295 12 6.99992 12 8.49992V10.9999H10C9.44772 10.9999 9 11.4476 9 11.9999V12.9999C9 13.5522 9.44771 13.9999 10 13.9999H12V21H4C3.44772 21 3 20.5523 3 20V4C3 3.44772 3.44772 3 4 3H20Z'
-                                  fill='#155dfc'
+                                  fill='#000000'
                                 ></path>{' '}
                               </g>
                             </svg>
@@ -260,5 +260,5 @@ export default function ContactPage() {
 
       <Footer />
     </div>
-  );
+  )
 }

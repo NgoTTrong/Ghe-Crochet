@@ -1,24 +1,24 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Heart, Menu, X } from 'lucide-react';
-import { useState } from 'react';
-import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import logoImage from '@/public/logo.jpg';
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import logoImage from '@/public/logo.jpg'
+import { Menu, X } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useState } from 'react'
 
 export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const pathname = usePathname()
 
   const navigation = [
     { name: 'Trang chủ', href: '/' },
     { name: 'Sản phẩm', href: '/products' },
     { name: 'Về chúng tôi', href: '/about' },
-    { name: 'Liên hệ', href: '/contact' },
-  ];
+    { name: 'Liên hệ', href: '/contact' }
+  ]
 
   return (
     <header className='sticky top-0 z-50 w-full border-b bg-white shadow-sm'>
@@ -41,20 +41,20 @@ export function Header() {
             {navigation.map((item) => {
               const isActive =
                 pathname === item.href ||
-                (item.href !== '/' && pathname.startsWith(item.href));
+                (item.href !== '/' && pathname.startsWith(item.href))
 
               return (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'text-sm font-medium transition-colors hover:text-black',
-                    isActive ? 'text-black' : 'text-gray-700'
+                    'text-sm font-medium transition-colors hover:text-black uppercase',
+                    isActive ? 'text-black' : 'text-gray-500'
                   )}
                 >
                   {item.name}
                 </Link>
-              );
+              )
             })}
           </nav>
 
@@ -72,7 +72,7 @@ export function Header() {
           <Button
             variant='ghost'
             size='sm'
-            className='md:hidden text-gray-700'
+            className='md:hidden text-gray-500'
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
@@ -90,21 +90,21 @@ export function Header() {
               {navigation.map((item) => {
                 const isActive =
                   pathname === item.href ||
-                  (item.href !== '/' && pathname.startsWith(item.href));
+                  (item.href !== '/' && pathname.startsWith(item.href))
 
                 return (
                   <Link
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      'text-sm font-medium transition-colors hover:text-black',
-                      isActive ? 'text-black' : 'text-gray-700'
+                      'text-sm font-medium transition-colors hover:text-black uppercase',
+                      isActive ? 'text-black' : 'text-gray-500'
                     )}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item.name}
                   </Link>
-                );
+                )
               })}
               <Button
                 asChild
@@ -119,5 +119,5 @@ export function Header() {
         )}
       </div>
     </header>
-  );
+  )
 }

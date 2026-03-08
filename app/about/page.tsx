@@ -1,54 +1,54 @@
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Heart, Star, Users, Award, Sparkles } from 'lucide-react';
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
-import { AboutImageGallery } from '@/components/about-image-gallery';
+import { AboutImageGallery } from '@/components/about-image-gallery'
+import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { createServerClient } from '@supabase/ssr'
+import { Award, Heart, Sparkles, Star, Users } from 'lucide-react'
+import { cookies } from 'next/headers'
+import Image from 'next/image'
+import Link from 'next/link'
 
 interface AboutImage {
-  id: number;
-  title: string;
-  description: string | null;
-  image_url: string;
-  display_order: number;
-  is_active: boolean;
+  id: number
+  title: string
+  description: string | null
+  image_url: string
+  display_order: number
+  is_active: boolean
 }
 
 async function getAboutImages(): Promise<AboutImage[]> {
-  const cookieStore = cookies();
+  const cookieStore = cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-      },
+          return cookieStore.get(name)?.value
+        }
+      }
     }
-  );
+  )
 
   const { data, error } = await supabase
     .from('about_images')
     .select('*')
     .eq('is_active', true)
-    .order('display_order', { ascending: true });
+    .order('display_order', { ascending: true })
 
   if (error) {
-    console.error('Error fetching about images:', error);
-    return [];
+    console.error('Error fetching about images:', error)
+    return []
   }
 
-  return data || [];
+  return data || []
 }
 
 export default async function AboutPage() {
-  const aboutImages = await getAboutImages();
+  const aboutImages = await getAboutImages()
 
   return (
     <div className='min-h-screen'>
@@ -208,25 +208,25 @@ export default async function AboutPage() {
                   step: '01',
                   title: 'Ý tưởng & Thiết kế',
                   description:
-                    'Nghiên cứu xu hướng và tạo ra những thiết kế độc đáo',
+                    'Nghiên cứu xu hướng và tạo ra những thiết kế độc đáo'
                 },
                 {
                   step: '02',
                   title: 'Chọn chất liệu',
                   description:
-                    'Lựa chọn những chất liệu tốt nhất, an toàn cho sức khỏe',
+                    'Lựa chọn những chất liệu tốt nhất, an toàn cho sức khỏe'
                 },
                 {
                   step: '03',
                   title: 'Thực hiện',
                   description:
-                    'Móc len tỉ mỉ từng chi tiết với kỹ thuật chuyên nghiệp',
+                    'Móc len tỉ mỉ từng chi tiết với kỹ thuật chuyên nghiệp'
                 },
                 {
                   step: '04',
                   title: 'Hoàn thiện',
-                  description: 'Kiểm tra chất lượng và đóng gói cẩn thận',
-                },
+                  description: 'Kiểm tra chất lượng và đóng gói cẩn thận'
+                }
               ].map((item, index) => (
                 <div key={index} className='text-center space-y-4'>
                   <div className='w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-lg'>
@@ -275,7 +275,7 @@ export default async function AboutPage() {
                   >
                     <Link href='/products'>
                       <Star className='w-4 h-4 mr-2' />
-                      Khám phá sản phẩm
+                      Xem bộ sưu tập
                     </Link>
                   </Button>
                 </div>
@@ -287,5 +287,5 @@ export default async function AboutPage() {
 
       <Footer />
     </div>
-  );
+  )
 }
