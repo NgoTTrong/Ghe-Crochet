@@ -336,7 +336,7 @@ export default async function HomePage() {
 
                 <h2 className='text-3xl lg:text-4xl font-bold leading-tight'>
                   Hiện thực hóa{' '}
-                  <span className='gradient-text'>dấu ấn cá nhân?</span>
+                  <span className='gradient-text'>dấu ấn cá nhân</span>
                 </h2>
 
                 <p className='text-muted-foreground leading-relaxed'>
