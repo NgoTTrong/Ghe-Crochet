@@ -209,7 +209,7 @@ export default async function HomePage() {
 
         {/* ── Discounted Products ───────────────────────── */}
         {discountedProducts.length > 0 && (
-          <section className='py-16 lg:py-24 bg-red-50'>
+          <section className='py-16 lg:py-24 bg-white'>
             <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
               <AnimatedSection>
                 <div className='text-center space-y-4 mb-12'>
@@ -290,7 +290,7 @@ export default async function HomePage() {
         </section> */}
 
         {/* ── Custom Order Hook ────────────────────────── */}
-        <section className='py-16 lg:py-24 bg-white'>
+        <section className='py-16 lg:py-24 bg-red-50'>
           <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
               {/* Decorative side */}

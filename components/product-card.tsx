@@ -1,35 +1,35 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
+import Image from 'next/image'
+import Link from 'next/link'
 
 interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  promotion_price: number;
+  id: string
+  name: string
+  description: string
+  price: number
+  promotion_price: number
   categories?: Array<{
-    id: string;
-    name: string;
-  }>;
-  images: string[];
-  is_featured: boolean;
-  is_available: boolean;
+    id: string
+    name: string
+  }>
+  images: string[]
+  is_featured: boolean
+  is_available: boolean
 }
 
 interface ProductCardProps {
-  product: Product;
+  product: Product
 }
 
 export function ProductCard({ product }: ProductCardProps) {
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
-      currency: 'VND',
-    }).format(price);
-  };
+      currency: 'VND'
+    }).format(price)
+  }
 
   return (
     <Link href={`/products/${product.id}`}>
@@ -69,14 +69,14 @@ export function ProductCard({ product }: ProductCardProps) {
                   'font-bold text-lg text-black',
                   product?.promotion_price !== null &&
                     product?.promotion_price !== 0 &&
-                    'line-through text-primary'
+                    'line-through text-gray-500'
                 )}
               >
                 {formatPrice(product.price)}
               </span>
               {product?.promotion_price !== null &&
                 product?.promotion_price !== 0 && (
-                  <span className='font-bold text-lg text-red-500'>
+                  <span className='font-bold text-lg text-black'>
                     {formatPrice(product.promotion_price)}
                   </span>
                 )}
@@ -104,5 +104,5 @@ export function ProductCard({ product }: ProductCardProps) {
         </CardContent>
       </Card>
     </Link>
-  );
+  )
 }
