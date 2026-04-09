@@ -6,8 +6,8 @@ import { useDropzone } from "react-dropzone"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { createClient } from "@/lib/supabase/client"
 import { Upload, X, ImageIcon, Star, RefreshCw } from "lucide-react"
+import imageCompression from "browser-image-compression"
 import Image from "next/image"
 
 interface ImageUploadProps {
@@ -17,12 +17,18 @@ interface ImageUploadProps {
   disabled?: boolean
 }
 
+const compressionOptions = {
+  maxSizeMB: 0.5,
+  maxWidthOrHeight: 1200,
+  useWebWorker: true,
+  fileType: "image/webp" as const,
+}
+
 export function ImageUpload({ value = [], onChange, maxFiles = 5, disabled }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [replacingIndex, setReplacingIndex] = useState<number | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const supabase = createClient()
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
@@ -33,23 +39,18 @@ export function ImageUpload({ value = [], onChange, maxFiles = 5, disabled }: Im
 
       try {
         const uploadPromises = acceptedFiles.map(async (file, index) => {
-          const fileExt = file.name.split(".").pop()
-          const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
+          const compressed = await imageCompression(file, compressionOptions)
 
-          const { data, error } = await supabase.storage.from("product-images").upload(fileName, file, {
-            cacheControl: "3600",
-            upsert: false,
-          })
+          const formData = new FormData()
+          formData.append("file", compressed, `image-${Date.now()}.webp`)
+          formData.append("folder", "product-images")
 
-          if (error) throw error
-
-          const {
-            data: { publicUrl },
-          } = supabase.storage.from("product-images").getPublicUrl(fileName)
+          const res = await fetch("/api/upload", { method: "POST", body: formData })
+          if (!res.ok) throw new Error("Upload failed")
+          const { url } = await res.json()
 
           setUploadProgress(((index + 1) / acceptedFiles.length) * 100)
-
-          return publicUrl
+          return url as string
         })
 
         const uploadedUrls = await Promise.all(uploadPromises)
@@ -63,7 +64,7 @@ export function ImageUpload({ value = [], onChange, maxFiles = 5, disabled }: Im
         setUploadProgress(0)
       }
     },
-    [value, onChange, maxFiles, disabled, supabase],
+    [value, onChange, maxFiles, disabled],
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -77,12 +78,13 @@ export function ImageUpload({ value = [], onChange, maxFiles = 5, disabled }: Im
 
   const removeImage = async (urlToRemove: string) => {
     if (disabled) return
-
     try {
-      const fileName = urlToRemove.split("/").pop()
-      if (fileName) {
-        await supabase.storage.from("product-images").remove([fileName])
-      }
+      const res = await fetch("/api/delete-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: urlToRemove }),
+      })
+      if (!res.ok) throw new Error("Delete failed")
       onChange(value.filter((url) => url !== urlToRemove))
     } catch (error) {
       console.error("Delete error:", error)
@@ -107,28 +109,26 @@ export function ImageUpload({ value = [], onChange, maxFiles = 5, disabled }: Im
 
     setUploading(true)
     try {
-      const fileExt = file.name.split(".").pop()
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
+      const compressed = await imageCompression(file, compressionOptions)
 
-      const { error } = await supabase.storage.from("product-images").upload(fileName, file, {
-        cacheControl: "3600",
-        upsert: false,
+      const formData = new FormData()
+      formData.append("file", compressed, `image-${Date.now()}.webp`)
+      formData.append("folder", "product-images")
+
+      const uploadRes = await fetch("/api/upload", { method: "POST", body: formData })
+      if (!uploadRes.ok) throw new Error("Upload failed")
+      const { url: newUrl } = await uploadRes.json()
+
+      // Delete old image
+      const oldUrl = value[replacingIndex]
+      await fetch("/api/delete-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: oldUrl }),
       })
 
-      if (error) throw error
-
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("product-images").getPublicUrl(fileName)
-
-      // Delete old image from storage
-      const oldFileName = value[replacingIndex].split("/").pop()
-      if (oldFileName) {
-        await supabase.storage.from("product-images").remove([oldFileName])
-      }
-
       const newUrls = [...value]
-      newUrls[replacingIndex] = publicUrl
+      newUrls[replacingIndex] = newUrl
       onChange(newUrls)
     } catch (error) {
       console.error("Replace error:", error)
