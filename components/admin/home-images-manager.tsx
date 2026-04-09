@@ -70,6 +70,15 @@ export function HomeImagesManager({ initialSettings }: HomeImagesManagerProps) {
 
   const removeImage = async (key: string) => {
     try {
+      const currentUrl = settings[key]
+      if (currentUrl) {
+        await fetch("/api/delete-image", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: currentUrl }),
+        })
+      }
+
       const { error } = await supabase
         .from('site_settings')
         .upsert({ key, value: null, updated_at: new Date().toISOString() })

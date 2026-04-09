@@ -121,11 +121,14 @@ export function ImageUpload({ value = [], onChange, maxFiles = 5, disabled }: Im
 
       // Delete old image
       const oldUrl = value[replacingIndex]
-      await fetch("/api/delete-image", {
+      const deleteRes = await fetch("/api/delete-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: oldUrl }),
       })
+      if (!deleteRes.ok) {
+        console.warn("Failed to delete old image from R2:", oldUrl)
+      }
 
       const newUrls = [...value]
       newUrls[replacingIndex] = newUrl
