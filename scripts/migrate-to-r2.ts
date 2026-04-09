@@ -62,7 +62,7 @@ async function migrateImage(supabaseUrl: string): Promise<string> {
     })
   )
 
-  const newUrl = `${R2_PUBLIC_URL}/${key}`
+  const newUrl = `${R2_PUBLIC_URL.replace(/\/$/, "")}/${key}`
   console.log(`  OK: ${supabaseUrl.split("/").pop()} → ${newUrl}`)
   return newUrl
 }
@@ -93,7 +93,14 @@ async function migrateProducts() {
       }
     }
 
-    await supabase.from("products").update({ images: newImages }).eq("id", product.id)
+    const hasChanges = newImages.some((url, i) => url !== product.images[i])
+    if (hasChanges) {
+      const { error: updateError } = await supabase.from("products").update({ images: newImages }).eq("id", product.id)
+      if (updateError) {
+        console.error(`  FAIL: DB update for product ${product.id}`, updateError)
+        failed++
+      }
+    }
   }
 
   console.log(`Products: ${total} migrated, ${failed} failed`)
@@ -112,8 +119,13 @@ async function migrateAboutImages() {
   for (const row of rows ?? []) {
     try {
       const newUrl = await migrateImage(row.image_url)
-      await supabase.from("about_images").update({ image_url: newUrl }).eq("id", row.id)
-      total++
+      if (newUrl !== row.image_url) {
+        const { error: updateError } = await supabase.from("about_images").update({ image_url: newUrl }).eq("id", row.id)
+        if (updateError) throw updateError
+        total++
+      } else {
+        console.log(`  SKIP (no change): ${row.image_url}`)
+      }
     } catch (e) {
       console.error(`  FAIL: ${row.image_url}`, e)
       failed++
@@ -139,8 +151,13 @@ async function migrateSiteSettings() {
   for (const row of rows ?? []) {
     try {
       const newUrl = await migrateImage(row.value)
-      await supabase.from("site_settings").update({ value: newUrl }).eq("key", row.key)
-      total++
+      if (newUrl !== row.value) {
+        const { error: updateError } = await supabase.from("site_settings").update({ value: newUrl }).eq("key", row.key)
+        if (updateError) throw updateError
+        total++
+      } else {
+        console.log(`  SKIP (no change): ${row.value}`)
+      }
     } catch (e) {
       console.error(`  FAIL: ${row.key} = ${row.value}`, e)
       failed++
