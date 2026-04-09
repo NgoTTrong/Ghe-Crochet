@@ -8,7 +8,7 @@ export async function uploadProductImage(file: File, productId?: string): Promis
   const fileName = `${productId || "temp"}-${Date.now()}.${fileExt}`
 
   const { data, error } = await supabase.storage.from("product-images").upload(fileName, file, {
-    cacheControl: "3600",
+    cacheControl: "31536000",
     upsert: false,
   })
 
