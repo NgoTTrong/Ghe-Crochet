@@ -43,21 +43,16 @@ export function HomeImagesManager({ initialSettings }: HomeImagesManagerProps) {
     setUploading(key)
     setSaved(null)
     try {
-      const ext = file.name.split('.').pop()
-      const fileName = `site/${key}-${Date.now()}.${ext}`
+      const formData = new FormData()
+      formData.append("file", file, `${key}-${Date.now()}.${file.name.split(".").pop()}`)
+      formData.append("folder", "site")
 
-      const { error: uploadError } = await supabase.storage
-        .from('product-images')
-        .upload(fileName, file, { upsert: true, cacheControl: '3600' })
-
-      if (uploadError) throw uploadError
-
-      const {
-        data: { publicUrl }
-      } = supabase.storage.from('product-images').getPublicUrl(fileName)
+      const uploadRes = await fetch("/api/upload", { method: "POST", body: formData })
+      if (!uploadRes.ok) throw new Error("Upload failed")
+      const { url: publicUrl } = await uploadRes.json()
 
       const { error: dbError } = await supabase
-        .from('site_settings')
+        .from("site_settings")
         .upsert({ key, value: publicUrl, updated_at: new Date().toISOString() })
 
       if (dbError) throw dbError
