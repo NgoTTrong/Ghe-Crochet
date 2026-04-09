@@ -43,19 +43,18 @@ export function DeleteProductButton({ productId, productName }: DeleteProductBut
       console.log("[v0] Fetched product for delete:", { product, fetchError })
       if (fetchError) throw fetchError
 
-      // Delete product images from storage if they exist
+      // Delete product images via API if they exist
       if (product?.images && product.images.length > 0) {
         console.log("[v0] Deleting product images:", product.images)
-        const imageFileNames = product.images
-          .map((url: string) => {
-            return url.split("/").pop() || ""
-          })
-          .filter(Boolean)
-
-        if (imageFileNames.length > 0) {
-          const { error: storageError } = await supabase.storage.from("product-images").remove(imageFileNames)
-          console.log("[v0] Storage delete result:", storageError)
-        }
+        await Promise.allSettled(
+          product.images.map((url: string) =>
+            fetch("/api/delete-image", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ url }),
+            })
+          )
+        )
       }
 
       // Delete the product
