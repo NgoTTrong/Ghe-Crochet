@@ -106,7 +106,8 @@ export default async function ProductsPage({
     const { data: categoriesData } = await supabase
       .from('categories')
       .select('*')
-      .order('name')
+      .order('display_order', { ascending: true })
+      .order('name', { ascending: true })
 
     categories = categoriesData || []
   } catch (err) {
