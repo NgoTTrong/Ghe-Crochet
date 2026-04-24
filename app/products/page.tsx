@@ -124,11 +124,11 @@ export default async function ProductsPage({
     <div className='min-h-screen'>
       <Header />
 
-      <main className='py-8 lg:py-12'>
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
+      <main className='py-4 md:py-8 lg:py-12'>
+        <div className='container mx-auto px-3 sm:px-6 lg:px-8'>
 
           {/* Page heading */}
-          <div className='mb-8'>
+          <div className='mb-4 md:mb-8'>
             <h1 className='text-2xl lg:text-3xl font-bold'>Bộ sưu tập</h1>
             <p className='text-muted-foreground mt-1'>
               {totalCount} sản phẩm
@@ -142,7 +142,7 @@ export default async function ProductsPage({
           </div>
 
           {/* Sidebar + Content */}
-          <div className='flex flex-col lg:flex-row gap-8'>
+          <div className='flex flex-col lg:flex-row gap-4 md:gap-8'>
 
             {/* ── Left: Filters ───────────────────────── */}
             <Suspense fallback={null}>
@@ -157,7 +157,7 @@ export default async function ProductsPage({
             {/* ── Right: Products ──────────────────────── */}
             <div className='flex-1 min-w-0'>
               <Suspense fallback={
-                <div className='grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6'>
+                <div className='grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 lg:gap-6'>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <div key={i} className='aspect-square rounded-2xl bg-muted animate-pulse' />
                   ))}
@@ -165,7 +165,7 @@ export default async function ProductsPage({
               }>
                 {products.length > 0 ? (
                   <>
-                    <div className='grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6'>
+                    <div className='grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 lg:gap-6'>
                       {products.map((product) => (
                         <ProductCard key={product.id} product={product} />
                       ))}
