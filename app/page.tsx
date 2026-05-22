@@ -86,13 +86,33 @@ export default async function HomePage() {
       <Header />
 
       <main>
-        {/* ── Hero ─────────────────────────────────────── */}
-        <section className='relative py-20 lg:py-23 overflow-hidden'>
-          <div className='absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10' />
-          <div className='absolute top-10 right-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl pointer-events-none' />
-          <div className='absolute bottom-10 left-10 w-48 h-48 bg-secondary/20 rounded-full blur-3xl pointer-events-none' />
+        <div className='relative overflow-hidden -mt-16'>
+          <Image
+            src='/decor-top-left.png'
+            alt=''
+            aria-hidden
+            width={800}
+            height={1200}
+            className='absolute top-0 left-[-25px] hidden md:block md:w-72 lg:w-96 xl:w-[30rem] h-auto pointer-events-none select-none z-0'
+            priority
+          />
+          <Image
+            src='/decor-top-right.png'
+            alt=''
+            aria-hidden
+            width={800}
+            height={1200}
+            className='absolute top-0 right-0 hidden md:block md:w-72 lg:w-96 xl:w-[30rem] h-auto pointer-events-none select-none z-0'
+            priority
+          />
 
-          <div className='container mx-auto px-4 sm:px-6 lg:px-8 relative'>
+        {/* ── Hero ─────────────────────────────────────── */}
+        <section className='relative pt-32 pb-20 lg:pb-24'>
+          <div className='absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 -z-10' />
+          <div className='absolute top-10 right-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl pointer-events-none -z-10' />
+          <div className='absolute bottom-10 left-10 w-48 h-48 bg-secondary/20 rounded-full blur-3xl pointer-events-none -z-10' />
+
+          <div className='container mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-5xl xl:max-w-6xl relative z-20'>
             <div className='grid lg:grid-cols-2 gap-12 items-center'>
               <div className='space-y-8'>
                 <div className='space-y-4 z-[50]'>
@@ -102,11 +122,11 @@ export default async function HomePage() {
                   </Badge>
                   <h1 className='text-[22px] sm:text-[28px] lg:text-[48px] font-bold leading-tight text-balance animate-fade-in-up delay-100'>
                     Cùng tạo nên dấu ấn
-                    <span className='gradient-text block whitespace-nowrap'>
+                    <span className='gradient-text block'>
                       Hiện Thực Hóa Mong Muốn
                     </span>
                   </h1>
-                  <p className='text-base lg:text-lg text-muted-foreground leading-relaxed text-pretty animate-fade-in-up delay-200'>
+                  <p className='text-base lg:text-lg text-muted-foreground leading-relaxed text-pretty animate-fade-in-up delay-200 md:[text-shadow:_0_1px_6px_rgb(255_255_255_/_0.9)]'>
                     Bạn đang ấp ủ một món quà đặc biệt hay muốn tìm kiếm một món
                     đồ trang trí mang đậm phong cách riêng? Hãy chia sẻ câu
                     chuyện và mong muốn của bạn, Ghẹ Crochet sẽ cùng bạn trao
@@ -138,8 +158,8 @@ export default async function HomePage() {
 
                 <div className='flex items-center gap-8 pt-4 animate-fade-in-up delay-400'>
                   <div className='text-center'>
-                    <div className='text-2xl font-bold text-primary'>500+</div>
-                    <div className='text-sm text-muted-foreground'>
+                    <div className='text-2xl font-bold text-primary md:text-white md:drop-shadow-md'>500+</div>
+                    <div className='text-sm text-muted-foreground md:text-white/90 md:drop-shadow'>
                       Sản phẩm
                     </div>
                   </div>
@@ -194,8 +214,8 @@ export default async function HomePage() {
         </section>
 
         {discountedProducts.length > 0 && (
-          <section className='py-14 lg:py-16 bg-white'>
-            <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
+          <section className='py-14 lg:py-16 relative z-10'>
+            <div className='container mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-5xl xl:max-w-6xl'>
               <AnimatedSection>
                 <div className='text-center space-y-4 mb-12'>
                   <Badge className='bg-primary text-primary-foreground'>
@@ -233,6 +253,7 @@ export default async function HomePage() {
             </div>
           </section>
         )}
+        </div>
 
         {/* ── Perks strip ──────────────────────────────── */}
         <section className='py-4 bg-white border-y border-border'>
@@ -297,12 +318,12 @@ export default async function HomePage() {
         </section> */}
 
         {/* ── Custom Order Hook ────────────────────────── */}
-        <section className='py-16 lg:py-24 relative'>
+        <section className='py-20 lg:py-32 relative overflow-hidden'>
           <div className='absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10' />
           <div className='absolute top-10 right-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl pointer-events-none' />
           <div className='absolute bottom-10 left-10 w-48 h-48 bg-secondary/20 rounded-full blur-3xl pointer-events-none' />
 
-          <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='container mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-5xl xl:max-w-6xl relative z-20'>
             <div className='grid lg:grid-cols-2 gap-12 lg:gap-20 items-center'>
               {/* Decorative side */}
               <AnimatedSection className='relative order-2 lg:order-1'>

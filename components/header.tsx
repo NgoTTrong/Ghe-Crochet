@@ -20,9 +20,23 @@ export function Header() {
     { name: 'Liên hệ', href: '/contact' }
   ]
 
+  const isHome = pathname === '/'
+
   return (
-    <header className='sticky top-0 z-50 w-full border-b bg-white shadow-sm'>
-      <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
+    <header
+      className={cn(
+        'sticky top-0 z-50 w-full',
+        isHome
+          ? 'bg-transparent shadow-sm'
+          : 'border-b bg-white shadow-sm'
+      )}
+    >
+      <div
+        className={cn(
+          'container mx-auto px-4 sm:px-6',
+          isHome ? 'lg:px-28 xl:px-40 2xl:px-56' : 'lg:px-8'
+        )}
+      >
         <div className='flex h-16 items-center justify-between'>
           {/* Logo */}
           <Link href='/' className='flex items-center gap-2 font-bold text-xl'>
