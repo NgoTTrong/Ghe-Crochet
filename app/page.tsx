@@ -85,8 +85,8 @@ export default async function HomePage() {
     <div className='min-h-screen'>
       <Header />
 
-      <main>
-        <div className='relative overflow-hidden -mt-16'>
+      <main className='overflow-x-clip'>
+        <div className='relative -mt-16'>
           <Image
             src='/decor-top-left.png'
             alt=''
@@ -104,6 +104,22 @@ export default async function HomePage() {
             height={1200}
             className='absolute top-0 right-0 hidden md:block md:w-72 lg:w-96 xl:w-[30rem] h-auto pointer-events-none select-none z-0'
             priority
+          />
+          <Image
+            src='/decor-bottom-left.png'
+            alt=''
+            aria-hidden
+            width={800}
+            height={1200}
+            className='absolute bottom-0 left-[-120px] z-10 translate-y-[40%] hidden md:block md:w-72 lg:w-96 xl:w-[48rem] h-auto pointer-events-none select-none'
+          />
+          <Image
+            src='/decor-bottom-right.png'
+            alt=''
+            aria-hidden
+            width={800}
+            height={1200}
+            className='absolute bottom-30 right-[-60px] z-10 translate-y-[40%] hidden md:block md:w-72 lg:w-96 xl:w-[48rem] h-auto pointer-events-none select-none'
           />
 
         {/* ── Hero ─────────────────────────────────────── */}
@@ -214,7 +230,7 @@ export default async function HomePage() {
         </section>
 
         {discountedProducts.length > 0 && (
-          <section className='py-14 lg:py-16 relative z-10'>
+          <section className='py-14 lg:py-16 relative z-20'>
             <div className='container mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-5xl xl:max-w-6xl'>
               <AnimatedSection>
                 <div className='text-center space-y-4 mb-12'>
@@ -253,12 +269,11 @@ export default async function HomePage() {
             </div>
           </section>
         )}
-        </div>
 
         {/* ── Perks strip ──────────────────────────────── */}
-        <section className='py-4 bg-white border-y border-border'>
+        <section className='py-5 bg-transparent relative z-10'>
           <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-            <div className='flex flex-wrap items-center justify-center gap-x-10 gap-y-3'>
+            <div className='flex flex-wrap items-center justify-center gap-x-8 gap-y-3'>
               {[
                 { emoji: '🧶', label: '100% Handmade' },
                 { emoji: '📦', label: 'Giao hàng toàn quốc' },
@@ -267,15 +282,26 @@ export default async function HomePage() {
               ].map(({ emoji, label }) => (
                 <div
                   key={label}
-                  className='flex items-center gap-2 text-sm text-muted-foreground'
+                  className='flex items-center gap-2.5'
                 >
-                  <span className='text-lg'>{emoji}</span>
-                  <span className='font-medium'>{label}</span>
+                  <span className='text-xl drop-shadow-md'>{emoji}</span>
+                  <span
+                    className='font-bold text-sm tracking-wide text-primary'
+                    style={{
+                      textShadow:
+                        '1px 1px 0 #fff, 2px 2px 3px rgba(255,255,255,0.4)'
+                    }}
+                  >
+                    {label}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
         </section>
+        </div>
+
+     
 
         {/* ── Featured Products ─────────────────────────── */}
         {/* <section className='py-16 lg:py-24 bg-muted/30'>
