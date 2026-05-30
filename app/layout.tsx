@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Be_Vietnam_Pro } from 'next/font/google'
 import type React from 'react'
 import { Suspense } from 'react'
+import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -75,6 +76,7 @@ export default function RootLayout({
     <html lang='vi'>
       <body className={`${beVietnamPro.variable} font-sans`}>
         <Suspense fallback={null}>{children}</Suspense>
+        <Toaster richColors position="top-center" />
         <Analytics />
       </body>
     </html>

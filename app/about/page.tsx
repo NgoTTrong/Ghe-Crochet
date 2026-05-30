@@ -7,7 +7,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import { createServerClient } from '@supabase/ssr'
 import { Award, Heart, Sparkles, Star, Users } from 'lucide-react'
 import { cookies } from 'next/headers'
-import Image from 'next/image'
 import Link from 'next/link'
 
 interface AboutImage {
@@ -57,7 +56,7 @@ export default async function AboutPage() {
       <main className='py-8'>
         <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
           {/* Hero Section */}
-          <section className='py-16 lg:py-24'>
+          <section className='py-10 lg:py-20'>
             <div className='text-center space-y-6 mb-16'>
               <Badge className='bg-primary text-primary-foreground'>
                 <Heart className='w-3 h-3 mr-1' />
@@ -72,8 +71,33 @@ export default async function AboutPage() {
                 độc đáo, ý nghĩa cho cuộc sống hàng ngày.
               </p>
             </div>
+          </section>
 
-            <div className='grid lg:grid-cols-2 gap-12 items-start'>
+          {/* Memories Album */}
+          {aboutImages.length > 0 && (
+            <section className='pb-12 lg:pb-16'>
+              <div className='text-center space-y-4 mb-12'>
+                <Badge className='bg-secondary text-secondary-foreground'>
+                  <Sparkles className='w-3 h-3 mr-1' />
+                  Album kỷ niệm
+                </Badge>
+                <h2 className='text-2xl lg:text-3xl font-bold'>
+                  Khoảnh khắc đáng nhớ trên hành trình
+                </h2>
+                <p className='text-muted-foreground max-w-2xl mx-auto'>
+                  Những kỷ niệm, dấu mốc và góc làm việc thân thương của Ghẹ
+                  Crochet.
+                </p>
+              </div>
+              <div className='max-w-5xl mx-auto'>
+                <AboutImageGallery images={aboutImages} />
+              </div>
+            </section>
+          )}
+
+          {/* Hành trình Section */}
+          <section className='py-10 lg:py-20'>
+            <div className='max-w-3xl mx-auto text-center'>
               <div className='space-y-6'>
                 <div className='space-y-4'>
                   <h2 className='text-2xl lg:text-3xl font-bold'>
@@ -111,31 +135,11 @@ export default async function AboutPage() {
                 </div>
               </div>
 
-              <div className='space-y-6'>
-                {aboutImages.length > 0 ? (
-                  <AboutImageGallery images={aboutImages} />
-                ) : (
-                  <div className='relative'>
-                    <div className='aspect-square rounded-3xl overflow-hidden cute-shadow'>
-                      <Image
-                        src='/placeholder.svg?height=500&width=500&text=Workspace'
-                        alt='Không gian làm việc Ghẹ Crochet'
-                        width={500}
-                        height={500}
-                        className='object-cover w-full h-full'
-                      />
-                    </div>
-                    <div className='absolute -bottom-4 -right-4 w-20 h-20 bg-accent rounded-full flex items-center justify-center cute-shadow'>
-                      <Sparkles className='w-8 h-8 text-accent-foreground' />
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
           </section>
 
           {/* Values Section */}
-          <section className='py-16 lg:py-24 bg-muted/30 rounded-3xl'>
+          <section className='py-10 lg:py-20 bg-muted/30 rounded-3xl'>
             <div className='text-center space-y-4 mb-12'>
               <h2 className='text-2xl lg:text-3xl font-bold'>
                 Giá trị cốt lõi
