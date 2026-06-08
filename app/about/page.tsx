@@ -89,10 +89,10 @@ export default async function AboutPage() {
       <Header />
 
       <main className='py-8'>
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
+        <div className='container mx-auto px-4 sm:px-6 lg:px-8 space-y-12 lg:space-y-20'>
           {/* Hero Section */}
-          <section className='py-10 lg:py-20'>
-            <div className='text-center space-y-6 mb-16'>
+          <section>
+            <div className='text-center space-y-6'>
               <Badge className='bg-primary text-primary-foreground'>
                 <Heart className='w-3 h-3 mr-1' />
                 Câu chuyện của chúng tôi
@@ -110,8 +110,8 @@ export default async function AboutPage() {
 
           {/* Timeline Section */}
           {timelineEvents.length > 0 && (
-            <section className='py-12 lg:py-20'>
-              <div className='text-center space-y-4 mb-14'>
+            <section>
+              <div className='text-center space-y-4 mb-10'>
                 <Badge className='bg-primary text-primary-foreground'>
                   <Milestone className='w-3 h-3 mr-1' />
                   Dòng thời gian
@@ -129,7 +129,7 @@ export default async function AboutPage() {
 
           {/* Memories Album */}
           {aboutImages.length > 0 && (
-            <section className='pb-12 lg:pb-16'>
+            <section>
               <div className='text-center space-y-4 mb-12'>
                 <Badge className='bg-secondary text-secondary-foreground'>
                   <Sparkles className='w-3 h-3 mr-1' />
@@ -150,7 +150,7 @@ export default async function AboutPage() {
           )}
 
           {/* Hành trình Section */}
-          <section className='py-10 lg:py-20'>
+          <section>
             <div className='max-w-3xl mx-auto text-center'>
               <div className='space-y-6'>
                 <div className='space-y-4'>
@@ -193,7 +193,7 @@ export default async function AboutPage() {
           </section>
 
           {/* Values Section */}
-          <section className='py-10 lg:py-20 bg-muted/30 rounded-3xl'>
+          <section className='py-8 lg:py-12 bg-muted/30 rounded-3xl'>
             <div className='text-center space-y-4 mb-12'>
               <h2 className='text-2xl lg:text-3xl font-bold'>
                 Giá trị cốt lõi
@@ -249,7 +249,7 @@ export default async function AboutPage() {
           </section>
 
           {/* Process Section */}
-          <section className='py-16 lg:py-24'>
+          <section>
             <div className='text-center space-y-4 mb-12'>
               <h2 className='text-2xl lg:text-3xl font-bold'>
                 Quy trình tạo sản phẩm
@@ -300,7 +300,7 @@ export default async function AboutPage() {
           </section>
 
           {/* CTA Section */}
-          <section className='py-16 lg:py-24'>
+          <section>
             <Card className='border-0 cute-shadow bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5'>
               <CardContent className='p-8 lg:p-12 text-center space-y-6'>
                 <div className='space-y-4'>
