@@ -390,17 +390,18 @@ export default async function HomePage() {
                 </h2>
 
                 <p className='text-muted-foreground leading-relaxed'>
-                  Ghẹ Crochet nhận đặt hàng theo yêu cầu — từ màu sắc, kích
-                  thước, đến hình dáng và phụ kiện đính kèm. Mỗi sản phẩm là một
-                  tác phẩm độc nhất được tạo ra riêng cho bạn.
+                  Ghẹ Crochet là thương hiệu tại Nha Trang, được vận hành bởi
+                  nghệ nhân thủ công tâm huyết, chuyên sản xuất các sản phẩm quà
+                  tặng bằng len (amigurumi) và phụ kiện cá nhân hóa độc đáo theo
+                  yêu cầu.
                 </p>
 
                 <ul className='space-y-3'>
                   {[
-                    'Tự chọn màu sắc từ bảng màu phong phú',
-                    'Điều chỉnh kích thước theo ý muốn',
-                    'Thêm tên, ngày kỷ niệm hoặc hình riêng',
-                    'Tư vấn mẫu thiết kế miễn phí'
+                    'Quà tặng bằng len (amigurumi) thủ công tỉ mỉ',
+                    'Phụ kiện cá nhân hóa độc đáo theo yêu cầu',
+                    'Đặt thiết kế riêng qua website ghe-crochet.asia',
+                    'Nhắn tin trực tiếp để được tư vấn miễn phí'
                   ].map((item) => (
                     <li key={item} className='flex items-start gap-3 text-sm'>
                       <CheckCircle2 className='w-4 h-4 text-secondary-foreground mt-0.5 shrink-0' />
