@@ -1,11 +1,12 @@
 import { AboutImageGallery } from '@/components/about-image-gallery'
+import { TimelineDisplay } from '@/components/timeline-display'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { createServerClient } from '@supabase/ssr'
-import { Award, Heart, Sparkles, Star, Users } from 'lucide-react'
+import { Award, Heart, Milestone, Sparkles, Star, Users } from 'lucide-react'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 
@@ -18,9 +19,19 @@ interface AboutImage {
   is_active: boolean
 }
 
-async function getAboutImages(): Promise<AboutImage[]> {
+interface TimelineEvent {
+  id: number
+  title: string
+  description: string | null
+  event_date: string | null
+  image_urls: string[] | null
+  display_order: number
+  is_active: boolean
+}
+
+function getSupabase() {
   const cookieStore = cookies()
-  const supabase = createServerClient(
+  return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -31,6 +42,10 @@ async function getAboutImages(): Promise<AboutImage[]> {
       }
     }
   )
+}
+
+async function getAboutImages(): Promise<AboutImage[]> {
+  const supabase = getSupabase()
 
   const { data, error } = await supabase
     .from('about_images')
@@ -46,8 +61,28 @@ async function getAboutImages(): Promise<AboutImage[]> {
   return data || []
 }
 
+async function getTimelineEvents(): Promise<TimelineEvent[]> {
+  const supabase = getSupabase()
+
+  const { data, error } = await supabase
+    .from('timeline_events')
+    .select('*')
+    .eq('is_active', true)
+    .order('display_order', { ascending: true })
+
+  if (error) {
+    console.error('Error fetching timeline events:', error)
+    return []
+  }
+
+  return data || []
+}
+
 export default async function AboutPage() {
-  const aboutImages = await getAboutImages()
+  const [aboutImages, timelineEvents] = await Promise.all([
+    getAboutImages(),
+    getTimelineEvents()
+  ])
 
   return (
     <div className='min-h-screen'>
@@ -72,6 +107,25 @@ export default async function AboutPage() {
               </p>
             </div>
           </section>
+
+          {/* Timeline Section */}
+          {timelineEvents.length > 0 && (
+            <section className='py-12 lg:py-20'>
+              <div className='text-center space-y-4 mb-14'>
+                <Badge className='bg-primary text-primary-foreground'>
+                  <Milestone className='w-3 h-3 mr-1' />
+                  Dòng thời gian
+                </Badge>
+                <h2 className='text-2xl lg:text-3xl font-bold'>
+                  Hành trình qua từng cột mốc
+                </h2>
+                <p className='text-muted-foreground max-w-2xl mx-auto'>
+                  Những dấu mốc đáng nhớ đã làm nên Ghẹ Crochet hôm nay.
+                </p>
+              </div>
+              <TimelineDisplay events={timelineEvents} />
+            </section>
+          )}
 
           {/* Memories Album */}
           {aboutImages.length > 0 && (

@@ -10,6 +10,7 @@ import {
   Settings,
   LogOut,
   ImageIcon,
+  Milestone,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -31,6 +32,7 @@ export function AdminHeader() {
       href: '/admin/about-images',
       icon: ImageIcon,
     },
+    { name: 'Dòng thời gian', href: '/admin/timeline', icon: Milestone },
     { name: 'Cài đặt', href: '/admin/settings', icon: Settings },
   ];
 
