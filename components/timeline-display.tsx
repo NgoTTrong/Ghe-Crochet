@@ -53,6 +53,12 @@ const YARN_SPINE =
 
 const PAPER = '#f6ecd9';
 
+/* Dashed thread connecting the spine node to a card. */
+const THREAD: React.CSSProperties = {
+  backgroundImage: 'repeating-linear-gradient(90deg, #a9784f 0 6px, transparent 6px 11px)',
+  backgroundSize: '11px 3px',
+};
+
 /** Fades + slides (and slightly rotates) children in the first time they scroll into view. */
 function Reveal({
   children,
@@ -308,46 +314,51 @@ export function TimelineDisplay({ events }: TimelineDisplayProps) {
         style={{ backgroundImage: YARN_SPINE, backgroundRepeat: 'repeat-y', backgroundPosition: 'center' }}
       />
 
-      <div className="space-y-12 md:space-y-20">
-        {events.map((event, index) => {
-          const side: 'left' | 'right' = index % 2 === 0 ? 'left' : 'right';
+      <div className="space-y-16 md:space-y-24">
+        {Array.from({ length: Math.ceil(events.length / 2) }).map((_, row) => {
+          const left = events[row * 2];
+          const right = events[row * 2 + 1]; // may be undefined on an odd final row
           return (
             <div
-              key={event.id}
-              className="relative grid grid-cols-[60px_1fr] items-center gap-1 md:grid-cols-2 md:gap-16"
+              key={left.id}
+              className="relative grid grid-cols-[60px_1fr] items-start gap-1 md:grid-cols-2 md:gap-16"
             >
-              {/* Yarn-ball node on the spine */}
-              <div className="absolute left-[30px] top-7 z-10 -translate-x-1/2 md:left-1/2 md:top-1/2 md:-translate-y-1/2">
+              {/* Yarn-ball node — centered on the spine between the pair */}
+              <div className="absolute left-[30px] top-7 z-10 -translate-x-1/2 md:left-1/2 md:top-16 md:-translate-y-1/2">
                 <Reveal from="up">
                   <YarnNode />
                 </Reveal>
               </div>
 
-              {/* Dashed thread connecting node → card (desktop only) */}
+              {/* Dashed threads node → each card (desktop only) */}
               <span
                 aria-hidden
-                className={`absolute top-1/2 z-0 hidden h-[3px] w-12 -translate-y-1/2 md:block ${
-                  side === 'left' ? 'left-1/2 -translate-x-full -ml-3' : 'right-1/2 translate-x-full -mr-3'
-                }`}
-                style={{
-                  backgroundImage:
-                    'repeating-linear-gradient(90deg, #a9784f 0 6px, transparent 6px 11px)',
-                  backgroundSize: '11px 3px',
-                }}
+                className="absolute left-1/2 top-16 z-0 hidden h-[3px] w-12 -ml-3 -translate-x-full -translate-y-1/2 md:block"
+                style={THREAD}
               />
+              {right && (
+                <span
+                  aria-hidden
+                  className="absolute right-1/2 top-16 z-0 hidden h-[3px] w-12 -mr-3 translate-x-full -translate-y-1/2 md:block"
+                  style={THREAD}
+                />
+              )}
 
-              {/* Card — alternates sides on desktop, capped width + hugged to the spine */}
-              <div
-                className={`col-start-2 col-end-3 w-full max-w-[420px] md:row-start-1 ${
-                  side === 'left'
-                    ? 'mr-auto md:col-start-1 md:col-end-2 md:ml-auto md:mr-0'
-                    : 'mr-auto md:col-start-2 md:col-end-3 md:mr-auto md:ml-0'
-                }`}
-              >
-                <Reveal from={side === 'left' ? 'left' : 'right'} rotate={side === 'left' ? -1 : 1} delay={60}>
-                  <MilestoneCard event={event} index={index} side={side} />
+              {/* Left card — hugged to the spine from the left */}
+              <div className="col-start-2 col-end-3 w-full max-w-[420px] md:col-start-1 md:col-end-2 md:ml-auto md:mr-0">
+                <Reveal from="left" rotate={-1} delay={60}>
+                  <MilestoneCard event={left} index={row * 2} side="left" />
                 </Reveal>
               </div>
+
+              {/* Right card — hugged to the spine from the right (stacks under on mobile) */}
+              {right && (
+                <div className="col-start-2 col-end-3 mt-12 w-full max-w-[420px] md:col-start-2 md:col-end-3 md:mt-0 md:ml-0 md:mr-auto">
+                  <Reveal from="right" rotate={1} delay={120}>
+                    <MilestoneCard event={right} index={row * 2 + 1} side="right" />
+                  </Reveal>
+                </div>
+              )}
             </div>
           );
         })}
