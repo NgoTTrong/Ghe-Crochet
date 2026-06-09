@@ -190,14 +190,14 @@ function PhotoStack({ images, title }: { images: string[]; title: string }) {
 
       {/* Thumbnail rail — see every photo of this milestone at a glance */}
       {n > 1 && (
-        <div className="mt-2 flex flex-wrap gap-1.5">
+        <div className="mt-2 grid grid-cols-6 gap-1.5 sm:grid-cols-8">
           {images.map((url, i) => (
             <button
               key={url}
               type="button"
               onClick={() => setIdx(i)}
               aria-label={`Ảnh ${i + 1}`}
-              className={`relative h-11 w-11 shrink-0 overflow-hidden rounded-md transition-all sm:h-12 sm:w-12 ${
+              className={`relative aspect-square w-full overflow-hidden rounded-md transition-all ${
                 i === idx
                   ? 'ring-2 ring-primary ring-offset-1 ring-offset-white'
                   : 'opacity-70 hover:opacity-100'

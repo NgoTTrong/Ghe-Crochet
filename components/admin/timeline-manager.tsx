@@ -504,9 +504,8 @@ function SortableEventCard({
   };
 
   return (
+    <div ref={setNodeRef} style={style}>
     <Card
-      ref={setNodeRef}
-      style={style}
       className={`overflow-hidden transition-shadow ${
         isDragging ? 'shadow-2xl ring-2 ring-primary' : ''
       } ${!event.is_active ? 'opacity-70' : ''}`}
@@ -606,5 +605,6 @@ function SortableEventCard({
         </div>
       </CardContent>
     </Card>
+    </div>
   );
 }
