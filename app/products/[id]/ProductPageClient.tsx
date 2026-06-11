@@ -3,6 +3,7 @@
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { ImagePopup } from '@/components/image-popup'
+import { LoadingScreen } from '@/components/loading-screen'
 import { ProductCard } from '@/components/product-card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -123,7 +124,7 @@ export default function ProductPageClient({ params }: ProductPageProps) {
   }
 
   if (loading) {
-    return <div>Loading...</div>
+    return <LoadingScreen />
   }
 
   if (!product) {

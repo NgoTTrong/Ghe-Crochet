@@ -7,6 +7,10 @@ import { createClient } from '@/lib/supabase/server'
 import { Search } from 'lucide-react'
 import { Suspense } from 'react'
 import { FilterSidebar } from './components/filter-sidebar'
+import {
+  FilterTransitionProvider,
+  GridLoadingOverlay,
+} from './components/filter-transition'
 import { Pagination } from './components/pagination'
 
 const PAGE_SIZE = 12
@@ -15,6 +19,18 @@ interface SearchParams {
   category?: string
   search?: string
   page?: string
+  sort?: string
+  discount?: string
+}
+
+type SortKey = 'newest' | 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc'
+
+const SORT_OPTIONS: Record<SortKey, { column: string; ascending: boolean }> = {
+  newest: { column: 'created_at', ascending: false },
+  'price-asc': { column: 'price', ascending: true },
+  'price-desc': { column: 'price', ascending: false },
+  'name-asc': { column: 'name', ascending: true },
+  'name-desc': { column: 'name', ascending: false },
 }
 
 export async function generateMetadata({
@@ -66,6 +82,11 @@ export default async function ProductsPage({
   const currentPage = Math.max(1, parseInt(params.page || '1'))
   const offset = (currentPage - 1) * PAGE_SIZE
 
+  const sortKey: SortKey = (
+    params.sort && params.sort in SORT_OPTIONS ? params.sort : 'newest'
+  ) as SortKey
+  const onlyDiscount = params.discount === '1'
+
   let products: any[] = []
   let totalCount = 0
   let categories: any[] = []
@@ -75,11 +96,13 @@ export default async function ProductsPage({
       ? `*, product_categories!inner(categories!inner(id, name, description))`
       : `*, product_categories(categories(id, name, description))`
 
+    const sortConfig = SORT_OPTIONS[sortKey]
+
     let productsQuery = supabase
       .from('products')
       .select(selectStr, { count: 'exact' })
       .eq('is_available', true)
-      .order('created_at', { ascending: false })
+      .order(sortConfig.column, { ascending: sortConfig.ascending })
       .range(offset, offset + PAGE_SIZE - 1)
 
     if (decodedCategory) {
@@ -92,6 +115,11 @@ export default async function ProductsPage({
       productsQuery = productsQuery.or(
         `name.ilike.%${decodedSearch}%,description.ilike.%${decodedSearch}%`
       )
+    }
+    if (onlyDiscount) {
+      productsQuery = productsQuery
+        .not('promotion_price', 'is', null)
+        .gt('promotion_price', 0)
     }
 
     const { data: productsData, count, error } = await productsQuery
@@ -118,6 +146,8 @@ export default async function ProductsPage({
   const paginationParams = new URLSearchParams()
   if (decodedCategory) paginationParams.set('category', decodedCategory)
   if (decodedSearch) paginationParams.set('search', decodedSearch)
+  if (sortKey !== 'newest') paginationParams.set('sort', sortKey)
+  if (onlyDiscount) paginationParams.set('discount', '1')
   const basePath = `/products?${paginationParams.toString()}`
 
   return (
@@ -142,6 +172,7 @@ export default async function ProductsPage({
           </div>
 
           {/* Sidebar + Content */}
+          <FilterTransitionProvider>
           <div className='flex flex-col lg:flex-row gap-4 md:gap-8'>
 
             {/* ── Left: Filters ───────────────────────── */}
@@ -150,14 +181,17 @@ export default async function ProductsPage({
                 categories={categories}
                 activeCategory={decodedCategory}
                 activeSearch={decodedSearch}
+                activeSort={sortKey}
+                activeDiscount={onlyDiscount}
                 totalCount={totalCount}
               />
             </Suspense>
 
             {/* ── Right: Products ──────────────────────── */}
-            <div className='flex-1 min-w-0'>
+            <div className='flex-1 min-w-0 relative'>
+              <GridLoadingOverlay />
               <Suspense fallback={
-                <div className='grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 lg:gap-6'>
+                <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 lg:gap-6'>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <div key={i} className='aspect-square rounded-2xl bg-muted animate-pulse' />
                   ))}
@@ -165,7 +199,7 @@ export default async function ProductsPage({
               }>
                 {products.length > 0 ? (
                   <>
-                    <div className='grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 lg:gap-6'>
+                    <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 lg:gap-6'>
                       {products.map((product) => (
                         <ProductCard key={product.id} product={product} />
                       ))}
@@ -197,6 +231,7 @@ export default async function ProductsPage({
             </div>
 
           </div>
+          </FilterTransitionProvider>
         </div>
       </main>
 

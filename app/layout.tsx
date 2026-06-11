@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import { Be_Vietnam_Pro } from 'next/font/google'
+import NextTopLoader from 'nextjs-toploader'
 import type React from 'react'
 import { Suspense } from 'react'
 import { Toaster } from '@/components/ui/sonner'
@@ -75,6 +76,12 @@ export default function RootLayout({
   return (
     <html lang='vi'>
       <body className={`${beVietnamPro.variable} font-sans`}>
+        <NextTopLoader
+          color='var(--primary)'
+          height={3}
+          showSpinner={false}
+          shadow='0 0 10px var(--primary),0 0 5px var(--primary)'
+        />
         <Suspense fallback={null}>{children}</Suspense>
         <Toaster richColors position="top-center" />
         <Analytics />

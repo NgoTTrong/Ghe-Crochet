@@ -1,11 +1,25 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useFilterTransition } from './filter-transition'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Search, SlidersHorizontal, X, ChevronDown } from 'lucide-react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  Search,
+  SlidersHorizontal,
+  X,
+  ChevronDown,
+  ArrowUpDown,
+  Tag,
+} from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface Category {
@@ -14,10 +28,20 @@ interface Category {
   icon: string | null
 }
 
+const SORT_LABELS: Record<string, string> = {
+  newest: 'Mới nhất',
+  'price-asc': 'Giá: Thấp → Cao',
+  'price-desc': 'Giá: Cao → Thấp',
+  'name-asc': 'Tên: A → Z',
+  'name-desc': 'Tên: Z → A',
+}
+
 interface FilterSidebarProps {
   categories: Category[]
   activeCategory?: string
   activeSearch?: string
+  activeSort?: string
+  activeDiscount?: boolean
   totalCount: number
 }
 
@@ -25,14 +49,35 @@ export function FilterSidebar({
   categories,
   activeCategory,
   activeSearch,
+  activeSort = 'newest',
+  activeDiscount = false,
   totalCount,
 }: FilterSidebarProps) {
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  const { navigate } = useFilterTransition()
 
   const [search, setSearch] = useState(activeSearch ?? '')
   const [mobileOpen, setMobileOpen] = useState(false)
   const mounted = useRef(false)
+
+  // Build a /products URL merging current filters with overrides.
+  // Pass null to clear a param. Resets pagination (page) on every change.
+  const buildUrl = (overrides: Record<string, string | null> = {}) => {
+    const next: Record<string, string | undefined> = {
+      category: activeCategory,
+      search: activeSearch || undefined,
+      sort: activeSort !== 'newest' ? activeSort : undefined,
+      discount: activeDiscount ? '1' : undefined,
+    }
+    for (const [key, value] of Object.entries(overrides)) {
+      next[key] = value ?? undefined
+    }
+    const params = new URLSearchParams()
+    if (next.category) params.set('category', next.category)
+    if (next.search) params.set('search', next.search)
+    if (next.sort) params.set('sort', next.sort)
+    if (next.discount) params.set('discount', next.discount)
+    return `/products?${params.toString()}`
+  }
 
   // Debounced search navigation — skip on initial mount
   useEffect(() => {
@@ -41,15 +86,57 @@ export function FilterSidebar({
       return
     }
     const handler = setTimeout(() => {
-      const params = new URLSearchParams()
-      if (activeCategory) params.set('category', activeCategory)
-      if (search.trim()) params.set('search', search.trim())
-      router.push(`/products?${params.toString()}`, { scroll: false })
+      navigate(buildUrl({ search: search.trim() || null }))
     }, 400)
     return () => clearTimeout(handler)
-  }, [search, activeCategory, router])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search])
 
-  const activeFiltersCount = (activeCategory ? 1 : 0) + (activeSearch ? 1 : 0)
+  const activeFiltersCount =
+    (activeCategory ? 1 : 0) + (activeSearch ? 1 : 0) + (activeDiscount ? 1 : 0)
+
+  // Sort dropdown + discount toggle — shared between desktop & mobile
+  const sortAndDiscount = (
+    <div className='space-y-3'>
+      <div className='space-y-1.5'>
+        <p className='text-xs font-semibold uppercase tracking-wider text-muted-foreground px-1 flex items-center gap-1.5'>
+          <ArrowUpDown className='w-3.5 h-3.5' />
+          Sắp xếp
+        </p>
+        <Select
+          value={activeSort}
+          onValueChange={(value) => navigate(buildUrl({ sort: value }))}
+        >
+          <SelectTrigger className='rounded-xl'>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.entries(SORT_LABELS).map(([value, label]) => (
+              <SelectItem key={value} value={value}>
+                {label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <button
+        onClick={() =>
+          navigate(buildUrl({ discount: activeDiscount ? null : '1' }))
+        }
+        className={cn(
+          'w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-colors border',
+          activeDiscount
+            ? 'bg-red-500 text-white border-red-500'
+            : 'bg-transparent text-muted-foreground border-border hover:bg-muted hover:text-foreground'
+        )}
+      >
+        <Tag className='w-4 h-4' />
+        Đang giảm giá
+        {activeDiscount && <X className='w-3.5 h-3.5 ml-auto' />}
+      </button>
+    </div>
+  )
 
   const categoryList = (
     <div className='space-y-1'>
@@ -100,7 +187,7 @@ export function FilterSidebar({
   return (
     <>
       {/* ── Desktop sidebar (lg+) ───────────────────── */}
-      <aside className='hidden lg:flex flex-col gap-6 w-64 shrink-0'>
+      <aside className='hidden lg:flex flex-col gap-6 w-64 shrink-0 sticky top-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto pr-1'>
         {/* Search */}
         <div className='relative'>
           <Input
@@ -119,6 +206,9 @@ export function FilterSidebar({
             </button>
           )}
         </div>
+
+        {/* Sort + discount */}
+        {sortAndDiscount}
 
         {/* Category list */}
         <div className='space-y-2'>
@@ -205,6 +295,11 @@ export function FilterSidebar({
               )}
             </div>
             {categoryList}
+
+            {/* Sort + discount */}
+            <div className='pt-1 border-t border-border'>
+              {sortAndDiscount}
+            </div>
           </div>
         )}
 
