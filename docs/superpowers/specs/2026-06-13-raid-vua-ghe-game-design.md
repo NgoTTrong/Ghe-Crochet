@@ -60,6 +60,7 @@ game_users
   id            uuid pk
   nickname      text
   device_token  text          # localStorage binding, soft anti multi-acc
+  recovery_code text unique    # GHE-XXXX, hiện cho khách lúc tạo, dùng khôi phục acc
   shells        int  default 0
   summon_tickets int default 0
   total_damage  bigint default 0
@@ -177,7 +178,14 @@ Mối đe dọa & cách chặn:
 ### Guest login
 1. Nhập nickname.
 2. Client gửi `device_token` (tạo + lưu localStorage nếu chưa có).
-3. Server tạo `game_user`, cấp `newUser.summonTickets` vé + roll pity đảm bảo ≥1 SR.
+3. Server tạo `game_user`, sinh `recovery_code` unique (`GHE-XXXX`), cấp `newUser.summonTickets` vé + roll pity đảm bảo ≥1 SR.
+4. Hiện `recovery_code` cho khách: "Lưu mã này để khôi phục tài khoản nếu mất."
+
+### Khôi phục tài khoản (localStorage mất / đổi máy)
+Vì `device_token` chỉ bind trình duyệt (xóa storage / đổi máy = mất), cần đường khôi phục:
+
+1. **Tự khôi phục:** màn login có nút "Khôi phục" → nhập `recovery_code` → server gắn `device_token` mới của trình duyệt hiện tại vào acc đó → vào lại nguyên trạng. Không cần admin.
+2. **Admin khôi phục:** khách quên cả mã → admin search nickname trong panel, đối chiếu chỉ số (shells, total_damage) tại quầy xác minh đúng người → rebind. An toàn vì event vật lý, admin nhìn mặt xác nhận.
 
 ### Gacha
 1. Trừ 1 vé.
