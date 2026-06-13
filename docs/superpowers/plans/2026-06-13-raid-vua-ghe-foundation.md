@@ -808,6 +808,23 @@ begin
   return new_hp;
 end;
 $$;
+
+-- SECURITY: the anon key is exposed in the browser. Without RLS, a cheater
+-- could read/write any game table directly via supabase-js, bypassing our
+-- API (e.g. UPDATE game_users SET shells=999999). Enable RLS on every table.
+-- All legitimate writes go through service-role API routes, which bypass RLS.
+alter table game_users          enable row level security;
+alter table game_creatures      enable row level security;
+alter table game_user_creatures enable row level security;
+alter table game_boss           enable row level security;
+alter table game_attacks        enable row level security;
+alter table game_rewards        enable row level security;
+alter table game_redeems        enable row level security;
+alter table game_gift_codes     enable row level security;
+
+-- Only exception: the browser (anon) must READ the boss row for the live HP
+-- bar via Realtime. Read-only; no write policy exists, so writes stay denied.
+create policy game_boss_anon_read on game_boss for select to anon using (true);
 ```
 
 - [ ] **Step 2: Run the schema migration in Supabase**
