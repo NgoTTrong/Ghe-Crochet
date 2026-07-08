@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import { Be_Vietnam_Pro } from 'next/font/google'
+import localFont from 'next/font/local'
 import NextTopLoader from 'nextjs-toploader'
 import type React from 'react'
 import { Suspense } from 'react'
@@ -11,6 +12,12 @@ const beVietnamPro = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-be-vietnam-pro',
+  display: 'swap'
+})
+
+const akisa = localFont({
+  src: '../public/fonts/1FTV-Akisa.ttf',
+  variable: '--font-akisa',
   display: 'swap'
 })
 
@@ -75,7 +82,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='vi'>
-      <body className={`${beVietnamPro.variable} font-sans`}>
+      <body className={`${beVietnamPro.variable} ${akisa.variable} font-sans`}>
         <NextTopLoader
           color='var(--primary)'
           height={3}

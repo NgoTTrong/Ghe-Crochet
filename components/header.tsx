@@ -47,7 +47,7 @@ export function Header() {
               height={32}
               className='w-8 h-8'
             />
-            <span className='text-gray-900'>Ghẹ Crochet</span>
+            <span className='text-gray-900' style={{ fontFamily: 'var(--font-akisa)' }}>Ghẹ Crochet</span>
           </Link>
 
           {/* Desktop Navigation */}
