@@ -1,4 +1,4 @@
-import logoImage from '@/public/logo.jpg'
+import logoImage from '@/public/logo-new.png'
 import zaloImage from '@/public/zalo.png'
 import { Facebook, Heart, PhoneCall } from 'lucide-react'
 import Image from 'next/image'

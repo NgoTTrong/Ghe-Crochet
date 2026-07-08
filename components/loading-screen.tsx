@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import logoImage from '@/public/logo.jpg'
+import logoImage from '@/public/logo-new.png'
 
 export function LoadingScreen() {
   return (

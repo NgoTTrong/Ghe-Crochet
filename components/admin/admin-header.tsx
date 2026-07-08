@@ -15,7 +15,7 @@ import {
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { logout } from '@/lib/auth';
-import logoImage from '@/public/logo.jpg';
+import logoImage from '@/public/logo-new.png';
 import Image from 'next/image';
 
 export function AdminHeader() {
