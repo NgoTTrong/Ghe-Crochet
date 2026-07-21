@@ -5,6 +5,7 @@ import { ProductCard } from '@/components/product-card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/server'
+import { getShowDiscounts } from '@/lib/site-settings'
 import {
   ArrowRight,
   CheckCircle2,
@@ -28,6 +29,7 @@ const formatPrice = (price: number) => {
 
 export default async function HomePage() {
   const supabase = await createClient()
+  const showDiscount = await getShowDiscounts()
 
   // Site images
   const { data: siteSettingsData } = await supabase
@@ -63,23 +65,25 @@ export default async function HomePage() {
   }))
 
   let discountedProducts: any[] = []
-  const { data: discountedData } = await supabase
-    .from('products')
-    .select(
-      `*,
+  if (showDiscount) {
+    const { data: discountedData } = await supabase
+      .from('products')
+      .select(
+        `*,
         product_categories(
           categories(id, name, description)
         )`
-    )
-    .not('promotion_price', 'is', null)
-    .eq('is_available', true)
-    .order('created_at', { ascending: false })
-    .limit(6)
+      )
+      .not('promotion_price', 'is', null)
+      .eq('is_available', true)
+      .order('created_at', { ascending: false })
+      .limit(6)
 
-  discountedProducts = (discountedData || []).map((product) => ({
-    ...product,
-    categories: product.product_categories.map((pc: any) => pc.categories)
-  }))
+    discountedProducts = (discountedData || []).map((product) => ({
+      ...product,
+      categories: product.product_categories.map((pc: any) => pc.categories)
+    }))
+  }
 
   return (
     <div className='min-h-screen'>
@@ -252,7 +256,11 @@ export default async function HomePage() {
                 stagger
               >
                 {discountedProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard
+                  key={product.id}
+                  product={product}
+                  showDiscount={showDiscount}
+                />
                 ))}
               </AnimatedSection>
 
@@ -326,7 +334,11 @@ export default async function HomePage() {
               stagger
             >
               {featuredProducts?.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  showDiscount={showDiscount}
+                />
               ))}
             </AnimatedSection>
 

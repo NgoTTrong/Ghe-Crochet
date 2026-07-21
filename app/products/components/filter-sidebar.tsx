@@ -42,6 +42,7 @@ interface FilterSidebarProps {
   activeSearch?: string
   activeSort?: string
   activeDiscount?: boolean
+  showDiscount?: boolean
   totalCount: number
 }
 
@@ -51,6 +52,7 @@ export function FilterSidebar({
   activeSearch,
   activeSort = 'newest',
   activeDiscount = false,
+  showDiscount = true,
   totalCount,
 }: FilterSidebarProps) {
   const { navigate } = useFilterTransition()
@@ -120,21 +122,23 @@ export function FilterSidebar({
         </Select>
       </div>
 
-      <button
-        onClick={() =>
-          navigate(buildUrl({ discount: activeDiscount ? null : '1' }))
-        }
-        className={cn(
-          'w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-colors border',
-          activeDiscount
-            ? 'bg-red-500 text-white border-red-500'
-            : 'bg-transparent text-muted-foreground border-border hover:bg-muted hover:text-foreground'
-        )}
-      >
-        <Tag className='w-4 h-4' />
-        Đang giảm giá
-        {activeDiscount && <X className='w-3.5 h-3.5 ml-auto' />}
-      </button>
+      {showDiscount && (
+        <button
+          onClick={() =>
+            navigate(buildUrl({ discount: activeDiscount ? null : '1' }))
+          }
+          className={cn(
+            'w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-colors border',
+            activeDiscount
+              ? 'bg-red-500 text-white border-red-500'
+              : 'bg-transparent text-muted-foreground border-border hover:bg-muted hover:text-foreground'
+          )}
+        >
+          <Tag className='w-4 h-4' />
+          Đang giảm giá
+          {activeDiscount && <X className='w-3.5 h-3.5 ml-auto' />}
+        </button>
+      )}
     </div>
   )
 

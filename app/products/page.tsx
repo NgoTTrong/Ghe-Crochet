@@ -4,6 +4,7 @@ import { Header } from '@/components/header'
 import { ProductCard } from '@/components/product-card'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/server'
+import { getShowDiscounts } from '@/lib/site-settings'
 import { Search } from 'lucide-react'
 import { Suspense } from 'react'
 import { FilterSidebar } from './components/filter-sidebar'
@@ -72,6 +73,7 @@ export default async function ProductsPage({
 }) {
   const params = await searchParams
   const supabase = await createClient()
+  const showDiscount = await getShowDiscounts()
 
   const decodedCategory = params.category
     ? decodeURIComponent(params.category)
@@ -85,7 +87,7 @@ export default async function ProductsPage({
   const sortKey: SortKey = (
     params.sort && params.sort in SORT_OPTIONS ? params.sort : 'newest'
   ) as SortKey
-  const onlyDiscount = params.discount === '1'
+  const onlyDiscount = showDiscount && params.discount === '1'
 
   let products: any[] = []
   let totalCount = 0
@@ -183,6 +185,7 @@ export default async function ProductsPage({
                 activeSearch={decodedSearch}
                 activeSort={sortKey}
                 activeDiscount={onlyDiscount}
+                showDiscount={showDiscount}
                 totalCount={totalCount}
               />
             </Suspense>
@@ -201,7 +204,11 @@ export default async function ProductsPage({
                   <>
                     <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 lg:gap-6'>
                       {products.map((product) => (
-                        <ProductCard key={product.id} product={product} />
+                        <ProductCard
+                          key={product.id}
+                          product={product}
+                          showDiscount={showDiscount}
+                        />
                       ))}
                     </div>
 
