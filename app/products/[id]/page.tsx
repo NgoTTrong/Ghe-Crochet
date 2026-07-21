@@ -2,6 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import type { Metadata } from 'next';
 import ProductPageClient from './ProductPageClient';
+import { getShowDiscounts } from '@/lib/site-settings';
 
 function createSupabaseClient() {
   const cookieStore = cookies();
@@ -95,5 +96,6 @@ export async function generateMetadata({
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  return <ProductPageClient params={await params} />;
+  const showDiscount = await getShowDiscounts();
+  return <ProductPageClient params={await params} showDiscount={showDiscount} />;
 }

@@ -27,9 +27,13 @@ import { useEffect, useState } from 'react'
 
 interface ProductPageProps {
   params: { id: string }
+  showDiscount?: boolean
 }
 
-export default function ProductPageClient({ params }: ProductPageProps) {
+export default function ProductPageClient({
+  params,
+  showDiscount = true
+}: ProductPageProps) {
   const [product, setProduct] = useState<any>(null)
   const [relatedProducts, setRelatedProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -254,14 +258,16 @@ export default function ProductPageClient({ params }: ProductPageProps) {
                   <span
                     className={cn(
                       'font-bold text-lg text-black',
-                      product?.promotion_price !== null &&
+                      showDiscount &&
+                        product?.promotion_price !== null &&
                         product?.promotion_price !== 0 &&
                         'line-through text-primary'
                     )}
                   >
                     {formatPrice(product.price)}
                   </span>
-                  {product?.promotion_price !== null &&
+                  {showDiscount &&
+                    product?.promotion_price !== null &&
                     product?.promotion_price !== 0 && (
                       <span className='font-bold text-lg text-red-500'>
                         {formatPrice(product.promotion_price)}
@@ -497,6 +503,7 @@ export default function ProductPageClient({ params }: ProductPageProps) {
                     <ProductCard
                       key={relatedProduct.id}
                       product={relatedProduct}
+                      showDiscount={showDiscount}
                     />
                   ))}
                 </div>

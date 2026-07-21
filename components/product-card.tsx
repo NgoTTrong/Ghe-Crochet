@@ -22,9 +22,10 @@ interface Product {
 
 interface ProductCardProps {
   product: Product
+  showDiscount?: boolean
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, showDiscount = true }: ProductCardProps) {
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
@@ -33,7 +34,9 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   const hasSale =
-    product?.promotion_price !== null && product?.promotion_price !== 0
+    showDiscount &&
+    product?.promotion_price !== null &&
+    product?.promotion_price !== 0
   const primaryCategory = product.categories?.[0]
   const extraCategoryCount = (product.categories?.length ?? 0) - 1
 
