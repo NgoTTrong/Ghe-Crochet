@@ -85,6 +85,8 @@ export default async function HomePage() {
     }))
   }
 
+  const hasDiscounts = showDiscount && discountedProducts.length > 0
+
   return (
     <div className='min-h-screen'>
       <Header />
@@ -109,22 +111,29 @@ export default async function HomePage() {
             className='absolute top-0 right-0 hidden md:block md:w-72 lg:w-96 xl:w-[30rem] h-auto pointer-events-none select-none z-0'
             priority
           />
-          <Image
-            src='/decor-bottom-left.png'
-            alt=''
-            aria-hidden
-            width={800}
-            height={1200}
-            className='absolute bottom-0 left-[-120px] z-10 translate-y-[40%] hidden md:block md:w-72 lg:w-96 xl:w-[48rem] h-auto pointer-events-none select-none'
-          />
-          <Image
-            src='/decor-bottom-right.png'
-            alt=''
-            aria-hidden
-            width={800}
-            height={1200}
-            className='absolute bottom-30 right-[-60px] z-10 translate-y-[40%] hidden md:block md:w-72 lg:w-96 xl:w-[48rem] h-auto pointer-events-none select-none'
-          />
+          {/* Bottom decor is anchored to the bottom of this wrapper, so without
+              the promo grid it rides up and collides with the hero — only show
+              it while discounts are live. */}
+          {hasDiscounts && (
+            <>
+              <Image
+                src='/decor-bottom-left.png'
+                alt=''
+                aria-hidden
+                width={800}
+                height={1200}
+                className='absolute bottom-0 left-[-120px] z-10 translate-y-[40%] hidden md:block md:w-72 lg:w-96 xl:w-[48rem] h-auto pointer-events-none select-none'
+              />
+              <Image
+                src='/decor-bottom-right.png'
+                alt=''
+                aria-hidden
+                width={800}
+                height={1200}
+                className='absolute bottom-30 right-[-60px] z-10 translate-y-[40%] hidden md:block md:w-72 lg:w-96 xl:w-[48rem] h-auto pointer-events-none select-none'
+              />
+            </>
+          )}
 
         {/* ── Hero ─────────────────────────────────────── */}
         <section className='relative pt-32 pb-20 lg:pb-24'>
@@ -233,50 +242,58 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {discountedProducts.length > 0 && (
-          <section className='py-14 lg:py-16 relative z-20'>
-            <div className='container mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-5xl xl:max-w-6xl'>
-              <AnimatedSection>
-                <div className='text-center space-y-4 mb-12'>
-                  <Badge className='bg-primary text-primary-foreground'>
-                    <Sparkles className='w-3 h-3 mr-1' />
-                    Giảm giá đặc biệt
-                  </Badge>
-                  <h2 className='text-3xl lg:text-4xl font-bold'>
-                    Ưu đãi không thể bỏ lỡ
-                  </h2>
-                  <p className='text-lg text-muted-foreground max-w-2xl mx-auto text-pretty'>
-                    Những sản phẩm đang giảm giá hấp dẫn dành riêng cho bạn
-                  </p>
-                </div>
-              </AnimatedSection>
+        {/* ── Promotions ───────────────────────────────── */}
+        {/* Section always renders. When discounts are hidden it keeps the same
+            copy but swaps the caption for a "coming soon" note — no sale prices
+            leak, and the decor below stays anchored at the same height. */}
+        <section className='py-14 lg:py-16 relative z-20'>
+          <div className='container mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-5xl xl:max-w-6xl'>
+            <AnimatedSection>
+              <div className='text-center space-y-4 mb-12'>
+                <Badge className='bg-primary text-primary-foreground'>
+                  <Sparkles className='w-3 h-3 mr-1' />
+                  {hasDiscounts ? 'Giảm giá đặc biệt' : 'Sắp diễn ra'}
+                </Badge>
+                <h2 className='text-3xl lg:text-4xl font-bold'>
+                  Ưu đãi không thể bỏ lỡ
+                </h2>
+                <p className='text-lg text-muted-foreground max-w-2xl mx-auto text-pretty'>
+                  {hasDiscounts
+                    ? 'Những sản phẩm đang giảm giá hấp dẫn dành riêng cho bạn'
+                    : 'Chương trình ưu đãi sẽ mở vào dịp lễ sắp tới. Theo dõi Ghẹ Crochet để không bỏ lỡ nhé!'}
+                </p>
+              </div>
+            </AnimatedSection>
 
+            {hasDiscounts && (
               <AnimatedSection
                 className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
                 stagger
               >
                 {discountedProducts.map((product) => (
                   <ProductCard
-                  key={product.id}
-                  product={product}
-                  showDiscount={showDiscount}
-                />
+                    key={product.id}
+                    product={product}
+                    showDiscount={showDiscount}
+                  />
                 ))}
               </AnimatedSection>
+            )}
 
-              <AnimatedSection className='text-center mt-12'>
-                <Button
-                  asChild
-                  size='lg'
-                  variant='outline'
-                  className='rounded-full bg-transparent'
-                >
-                  <Link href='/products'>Xem tất cả khuyến mãi</Link>
-                </Button>
-              </AnimatedSection>
-            </div>
-          </section>
-        )}
+            <AnimatedSection className={hasDiscounts ? 'text-center mt-12' : 'text-center'}>
+              <Button
+                asChild
+                size='lg'
+                variant='outline'
+                className='rounded-full bg-transparent'
+              >
+                <Link href='/products'>
+                  {hasDiscounts ? 'Xem tất cả khuyến mãi' : 'Xem tất cả sản phẩm'}
+                </Link>
+              </Button>
+            </AnimatedSection>
+          </div>
+        </section>
 
         {/* ── Perks strip ──────────────────────────────── */}
         <section className='py-5 bg-transparent relative z-10'>
